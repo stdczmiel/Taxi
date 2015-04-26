@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kierowca">
+          <Key>
+            <PropertyRef Name="ID_kierowcy" />
+          </Key>
+          <Property Name="ID_kierowcy" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Nr_telefonu" Type="char" MaxLength="9" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.baza-danych.Kierowca-Zlecenie' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Kierowca-Zlecenie">
+          <Key>
+            <PropertyRef Name="Kierowca" />
+            <PropertyRef Name="Zlecenie" />
+          </Key>
+          <Property Name="Kierowca" Type="int" Nullable="false" />
+          <Property Name="Zlecenie" Type="int" Nullable="false" />
+          <Property Name="Poczatek" Type="timestamp" Precision="0" />
+          <Property Name="Koniec" Type="timestamp" Precision="0" />
+        </EntityType>
+        <EntityType Name="Samochod">
+          <Key>
+            <PropertyRef Name="ID_samochodu" />
+          </Key>
+          <Property Name="ID_samochodu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Marka" Type="varchar" MaxLength="45" />
+          <Property Name="Model" Type="varchar" MaxLength="45" />
+          <Property Name="Przebieg" Type="int" Nullable="false" />
+          <Property Name="Sprawnosc" Type="bit" Nullable="false" />
+          <Property Name="VIP" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status_kierowcy">
+          <Key>
+            <PropertyRef Name="ID_statusu" />
+          </Key>
+          <Property Name="ID_statusu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kierowca" Type="int" Nullable="false" />
+          <Property Name="Samochod" Type="int" />
+          <Property Name="W_pracy" Type="bit" Nullable="false" />
+          <Property Name="Pozycja_szer" Type="decimal" Precision="8" Scale="6" />
+          <Property Name="Pozycja_dl" Type="decimal" Precision="8" Scale="6" />
+          <Property Name="Czas_zmiany" Type="timestamp" Precision="0" />
+        </EntityType>
+        <EntityType Name="Zlecenie">
+          <Key>
+            <PropertyRef Name="ID_zlecenie" />
+          </Key>
+          <Property Name="ID_zlecenie" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Skad_szer" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="Skad_dl" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="Dokad_szer" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="Dokad_dl" Type="decimal" Precision="8" Scale="6" Nullable="false" />
+          <Property Name="Czas_poczatkowy" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="Mozliwe_spoznienie" Type="int" Nullable="false" />
+          <Property Name="Przyblizony_czas_drogi" Type="int" Nullable="false" />
+          <Property Name="VIP" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_Kierowca">
+          <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Kierowca-Zlecenie" Type="Self.Kierowca-Zlecenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kierowca">
+              <PropertyRef Name="ID_kierowcy" />
+            </Principal>
+            <Dependent Role="Kierowca-Zlecenie">
+              <PropertyRef Name="Kierowca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Kierowca_status">
+          <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Status_kierowcy" Type="Self.Status_kierowcy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kierowca">
+              <PropertyRef Name="ID_kierowcy" />
+            </Principal>
+            <Dependent Role="Status_kierowcy">
+              <PropertyRef Name="Kierowca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Samochod_1">
+          <End Role="Samochod" Type="Self.Samochod" Multiplicity="0..1" />
+          <End Role="Status_kierowcy" Type="Self.Status_kierowcy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Samochod">
+              <PropertyRef Name="ID_samochodu" />
+            </Principal>
+            <Dependent Role="Status_kierowcy">
+              <PropertyRef Name="Samochod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Zlecenie">
+          <End Role="Zlecenie" Type="Self.Zlecenie" Multiplicity="1" />
+          <End Role="Kierowca-Zlecenie" Type="Self.Kierowca-Zlecenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zlecenie">
+              <PropertyRef Name="ID_zlecenie" />
+            </Principal>
+            <Dependent Role="Kierowca-Zlecenie">
+              <PropertyRef Name="Zlecenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Kierowca" EntityType="Self.Kierowca" Schema="baza-danych" store:Type="Tables" />
+          <EntitySet Name="Samochod" EntityType="Self.Samochod" Schema="baza-danych" store:Type="Tables" />
+          <EntitySet Name="Status_kierowcy" EntityType="Self.Status_kierowcy" Schema="baza-danych" store:Type="Tables" />
+          <EntitySet Name="Zlecenie" EntityType="Self.Zlecenie" Schema="baza-danych" store:Type="Tables" />
+          <EntitySet Name="Kierowca-Zlecenie" EntityType="Self.Kierowca-Zlecenie" store:Type="Tables" store:Schema="baza-danych">
+            <DefiningQuery>SELECT
+`Kierowca-Zlecenie`.`Kierowca`, 
+`Kierowca-Zlecenie`.`Zlecenie`, 
+`Kierowca-Zlecenie`.`Poczatek`, 
+`Kierowca-Zlecenie`.`Koniec`
+FROM `Kierowca-Zlecenie` AS `Kierowca-Zlecenie`</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_Kierowca" Association="Self.fk_Kierowca">
+            <End Role="Kierowca" EntitySet="Kierowca" />
+            <End Role="Kierowca-Zlecenie" EntitySet="Kierowca-Zlecenie" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Kierowca_status" Association="Self.fk_Kierowca_status">
+            <End Role="Kierowca" EntitySet="Kierowca" />
+            <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Samochod_1" Association="Self.fk_Samochod_1">
+            <End Role="Samochod" EntitySet="Samochod" />
+            <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Zlecenie" Association="Self.fk_Zlecenie">
+            <End Role="Zlecenie" EntitySet="Zlecenie" />
+            <End Role="Kierowca-Zlecenie" EntitySet="Kierowca-Zlecenie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kierowca">
+          <Key>
+            <PropertyRef Name="ID_kierowcy" />
+          </Key>
+          <Property Name="ID_kierowcy" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nr_telefonu" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Kierowca_Zlecenie" Relationship="Self.fk_Kierowca" FromRole="Kierowca" ToRole="Kierowca_Zlecenie" />
+          <NavigationProperty Name="Status_kierowcy" Relationship="Self.fk_Kierowca_status" FromRole="Kierowca" ToRole="Status_kierowcy" />
+        </EntityType>
+        <EntityType Name="Samochod">
+          <Key>
+            <PropertyRef Name="ID_samochodu" />
+          </Key>
+          <Property Name="ID_samochodu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Marka" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Model" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="Przebieg" Type="Int32" Nullable="false" />
+          <Property Name="Sprawnosc" Type="Boolean" Nullable="false" />
+          <Property Name="VIP" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Status_kierowcy" Relationship="Self.fk_Samochod_1" FromRole="Samochod" ToRole="Status_kierowcy" />
+        </EntityType>
+        <EntityType Name="Status_kierowcy">
+          <Key>
+            <PropertyRef Name="ID_statusu" />
+          </Key>
+          <Property Name="ID_statusu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kierowca" Type="Int32" Nullable="false" />
+          <Property Name="Samochod" Type="Int32" />
+          <Property Name="W_pracy" Type="Boolean" Nullable="false" />
+          <Property Name="Pozycja_szer" Type="Decimal" />
+          <Property Name="Pozycja_dl" Type="Decimal" />
+          <Property Name="Czas_zmiany" Type="DateTime" />
+          <NavigationProperty Name="Kierowca1" Relationship="Self.fk_Kierowca_status" FromRole="Status_kierowcy" ToRole="Kierowca" />
+          <NavigationProperty Name="Samochod1" Relationship="Self.fk_Samochod_1" FromRole="Status_kierowcy" ToRole="Samochod" />
+        </EntityType>
+        <EntityType Name="Zlecenie">
+          <Key>
+            <PropertyRef Name="ID_zlecenie" />
+          </Key>
+          <Property Name="ID_zlecenie" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Skad_szer" Type="Decimal" Nullable="false" />
+          <Property Name="Skad_dl" Type="Decimal" Nullable="false" />
+          <Property Name="Dokad_szer" Type="Decimal" Nullable="false" />
+          <Property Name="Dokad_dl" Type="Decimal" Nullable="false" />
+          <Property Name="Czas_poczatkowy" Type="DateTime" Nullable="false" />
+          <Property Name="Mozliwe_spoznienie" Type="Int32" Nullable="false" />
+          <Property Name="Przyblizony_czas_drogi" Type="Int32" Nullable="false" />
+          <Property Name="VIP" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kierowca_Zlecenie" Relationship="Self.fk_Zlecenie" FromRole="Zlecenie" ToRole="Kierowca_Zlecenie" />
+        </EntityType>
+        <EntityType Name="Kierowca_Zlecenie">
+          <Key>
+            <PropertyRef Name="Kierowca" />
+            <PropertyRef Name="Zlecenie" />
+          </Key>
+          <Property Name="Kierowca" Type="Int32" Nullable="false" />
+          <Property Name="Zlecenie" Type="Int32" Nullable="false" />
+          <Property Name="Poczatek" Type="DateTime" />
+          <Property Name="Koniec" Type="DateTime" />
+          <NavigationProperty Name="Kierowca1" Relationship="Self.fk_Kierowca" FromRole="Kierowca_Zlecenie" ToRole="Kierowca" />
+          <NavigationProperty Name="Zlecenie1" Relationship="Self.fk_Zlecenie" FromRole="Kierowca_Zlecenie" ToRole="Zlecenie" />
+        </EntityType>
+        <Association Name="fk_Kierowca">
+          <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Kierowca_Zlecenie" Type="Self.Kierowca_Zlecenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kierowca">
+              <PropertyRef Name="ID_kierowcy" />
+            </Principal>
+            <Dependent Role="Kierowca_Zlecenie">
+              <PropertyRef Name="Kierowca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Kierowca_status">
+          <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Status_kierowcy" Type="Self.Status_kierowcy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kierowca">
+              <PropertyRef Name="ID_kierowcy" />
+            </Principal>
+            <Dependent Role="Status_kierowcy">
+              <PropertyRef Name="Kierowca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Samochod_1">
+          <End Role="Samochod" Type="Self.Samochod" Multiplicity="0..1" />
+          <End Role="Status_kierowcy" Type="Self.Status_kierowcy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Samochod">
+              <PropertyRef Name="ID_samochodu" />
+            </Principal>
+            <Dependent Role="Status_kierowcy">
+              <PropertyRef Name="Samochod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Zlecenie">
+          <End Role="Zlecenie" Type="Self.Zlecenie" Multiplicity="1" />
+          <End Role="Kierowca_Zlecenie" Type="Self.Kierowca_Zlecenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zlecenie">
+              <PropertyRef Name="ID_zlecenie" />
+            </Principal>
+            <Dependent Role="Kierowca_Zlecenie">
+              <PropertyRef Name="Zlecenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="taxiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kierowca" EntityType="Self.Kierowca" />
+          <EntitySet Name="Samochod" EntityType="Self.Samochod" />
+          <EntitySet Name="Status_kierowcy" EntityType="Self.Status_kierowcy" />
+          <EntitySet Name="Zlecenie" EntityType="Self.Zlecenie" />
+          <EntitySet Name="Kierowca_Zlecenie" EntityType="Self.Kierowca_Zlecenie" />
+          <AssociationSet Name="fk_Kierowca" Association="Self.fk_Kierowca">
+            <End Role="Kierowca" EntitySet="Kierowca" />
+            <End Role="Kierowca_Zlecenie" EntitySet="Kierowca_Zlecenie" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Kierowca_status" Association="Self.fk_Kierowca_status">
+            <End Role="Kierowca" EntitySet="Kierowca" />
+            <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Samochod_1" Association="Self.fk_Samochod_1">
+            <End Role="Samochod" EntitySet="Samochod" />
+            <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Zlecenie" Association="Self.fk_Zlecenie">
+            <End Role="Zlecenie" EntitySet="Zlecenie" />
+            <End Role="Kierowca_Zlecenie" EntitySet="Kierowca_Zlecenie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="taxiEntities">
+          <EntitySetMapping Name="Kierowca">
+            <EntityTypeMapping TypeName="Model.Kierowca">
+              <MappingFragment StoreEntitySet="Kierowca">
+                <ScalarProperty Name="ID_kierowcy" ColumnName="ID_kierowcy" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Nr_telefonu" ColumnName="Nr_telefonu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Samochod">
+            <EntityTypeMapping TypeName="Model.Samochod">
+              <MappingFragment StoreEntitySet="Samochod">
+                <ScalarProperty Name="ID_samochodu" ColumnName="ID_samochodu" />
+                <ScalarProperty Name="Marka" ColumnName="Marka" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Przebieg" ColumnName="Przebieg" />
+                <ScalarProperty Name="Sprawnosc" ColumnName="Sprawnosc" />
+                <ScalarProperty Name="VIP" ColumnName="VIP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status_kierowcy">
+            <EntityTypeMapping TypeName="Model.Status_kierowcy">
+              <MappingFragment StoreEntitySet="Status_kierowcy">
+                <ScalarProperty Name="ID_statusu" ColumnName="ID_statusu" />
+                <ScalarProperty Name="Kierowca" ColumnName="Kierowca" />
+                <ScalarProperty Name="Samochod" ColumnName="Samochod" />
+                <ScalarProperty Name="W_pracy" ColumnName="W_pracy" />
+                <ScalarProperty Name="Pozycja_szer" ColumnName="Pozycja_szer" />
+                <ScalarProperty Name="Pozycja_dl" ColumnName="Pozycja_dl" />
+                <ScalarProperty Name="Czas_zmiany" ColumnName="Czas_zmiany" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zlecenie">
+            <EntityTypeMapping TypeName="Model.Zlecenie">
+              <MappingFragment StoreEntitySet="Zlecenie">
+                <ScalarProperty Name="ID_zlecenie" ColumnName="ID_zlecenie" />
+                <ScalarProperty Name="Skad_szer" ColumnName="Skad_szer" />
+                <ScalarProperty Name="Skad_dl" ColumnName="Skad_dl" />
+                <ScalarProperty Name="Dokad_szer" ColumnName="Dokad_szer" />
+                <ScalarProperty Name="Dokad_dl" ColumnName="Dokad_dl" />
+                <ScalarProperty Name="Czas_poczatkowy" ColumnName="Czas_poczatkowy" />
+                <ScalarProperty Name="Mozliwe_spoznienie" ColumnName="Mozliwe_spoznienie" />
+                <ScalarProperty Name="Przyblizony_czas_drogi" ColumnName="Przyblizony_czas_drogi" />
+                <ScalarProperty Name="VIP" ColumnName="VIP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kierowca_Zlecenie">
+            <EntityTypeMapping TypeName="Model.Kierowca_Zlecenie">
+              <MappingFragment StoreEntitySet="Kierowca-Zlecenie">
+                <ScalarProperty Name="Kierowca" ColumnName="Kierowca" />
+                <ScalarProperty Name="Zlecenie" ColumnName="Zlecenie" />
+                <ScalarProperty Name="Poczatek" ColumnName="Poczatek" />
+                <ScalarProperty Name="Koniec" ColumnName="Koniec" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
