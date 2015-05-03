@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.Label czas_poczatkowyLabel;
             System.Windows.Forms.Label dokad_dlLabel;
             System.Windows.Forms.Label mozliwe_spoznienieLabel;
             System.Windows.Forms.Label dokad_szerLabel;
             System.Windows.Forms.Label przyblizony_czas_drogiLabel;
             System.Windows.Forms.Label skad_dlLabel;
-            System.Windows.Forms.Label vIPLabel;
             System.Windows.Forms.Label skad_szerLabel;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageDrivers = new System.Windows.Forms.TabPage();
             this.samochodBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem1 = new System.Windows.Forms.ToolStripButton();
             this.samochodBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -80,24 +79,11 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.zlecenieBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gMap1 = new GMap.NET.WindowsForms.GMapControl();
-            this.kierowcaTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.KierowcaTableAdapter();
-            this.tableAdapterManager = new Taksówki._baza_danychDataSetTableAdapters.TableAdapterManager();
-            this.samochodTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.SamochodTableAdapter();
-            this.zlecenieTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.ZlecenieTableAdapter();
-            this.czas_poczatkowyDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.mozliwe_spoznienieTextBox = new System.Windows.Forms.TextBox();
-            this.dokad_dlTextBox = new System.Windows.Forms.TextBox();
-            this.przyblizony_czas_drogiTextBox = new System.Windows.Forms.TextBox();
-            this.dokad_szerTextBox = new System.Windows.Forms.TextBox();
-            this.vIPTextBox = new System.Windows.Forms.TextBox();
-            this.skad_dlTextBox = new System.Windows.Forms.TextBox();
-            this.distanceLabel = new System.Windows.Forms.Label();
-            this.distanceTB = new System.Windows.Forms.TextBox();
-            this.skad_szerTextBox = new System.Windows.Forms.TextBox();
+            this.tabPageComissions = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBoxVip = new System.Windows.Forms.CheckBox();
+            this.buttonNewComission = new System.Windows.Forms.Button();
+            this.applyZlecenieFormButton = new System.Windows.Forms.Button();
             this.zlecenieDataGridView = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -108,16 +94,30 @@
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.zlecenieBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.skad_szerTextBox = new System.Windows.Forms.TextBox();
+            this.distanceTB = new System.Windows.Forms.TextBox();
+            this.distanceLabel = new System.Windows.Forms.Label();
+            this.skad_dlTextBox = new System.Windows.Forms.TextBox();
+            this.dokad_szerTextBox = new System.Windows.Forms.TextBox();
+            this.przyblizony_czas_drogiTextBox = new System.Windows.Forms.TextBox();
+            this.dokad_dlTextBox = new System.Windows.Forms.TextBox();
+            this.mozliwe_spoznienieTextBox = new System.Windows.Forms.TextBox();
+            this.czas_poczatkowyDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.gMap1 = new GMap.NET.WindowsForms.GMapControl();
+            this.kierowcaTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.KierowcaTableAdapter();
+            this.tableAdapterManager = new Taksówki._baza_danychDataSetTableAdapters.TableAdapterManager();
+            this.samochodTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.SamochodTableAdapter();
+            this.zlecenieTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.ZlecenieTableAdapter();
             czas_poczatkowyLabel = new System.Windows.Forms.Label();
             dokad_dlLabel = new System.Windows.Forms.Label();
             mozliwe_spoznienieLabel = new System.Windows.Forms.Label();
             dokad_szerLabel = new System.Windows.Forms.Label();
             przyblizony_czas_drogiLabel = new System.Windows.Forms.Label();
             skad_dlLabel = new System.Windows.Forms.Label();
-            vIPLabel = new System.Windows.Forms.Label();
             skad_szerLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPageDrivers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingNavigator)).BeginInit();
             this.samochodBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingSource)).BeginInit();
@@ -127,39 +127,102 @@
             this.kierowcaBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kierowcaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kierowcaDataGridView)).BeginInit();
-            this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.zlecenieBindingSource)).BeginInit();
+            this.tabPageComissions.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zlecenieDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zlecenieBindingSource)).BeginInit();
             this.SuspendLayout();
+            // 
+            // czas_poczatkowyLabel
+            // 
+            czas_poczatkowyLabel.AutoSize = true;
+            czas_poczatkowyLabel.Location = new System.Drawing.Point(24, 83);
+            czas_poczatkowyLabel.Name = "czas_poczatkowyLabel";
+            czas_poczatkowyLabel.Size = new System.Drawing.Size(93, 13);
+            czas_poczatkowyLabel.TabIndex = 9;
+            czas_poczatkowyLabel.Text = "Czas poczatkowy:";
+            // 
+            // dokad_dlLabel
+            // 
+            dokad_dlLabel.AutoSize = true;
+            dokad_dlLabel.Location = new System.Drawing.Point(245, 53);
+            dokad_dlLabel.Name = "dokad_dlLabel";
+            dokad_dlLabel.Size = new System.Drawing.Size(53, 13);
+            dokad_dlLabel.TabIndex = 7;
+            dokad_dlLabel.Text = "Dokad dl:";
+            // 
+            // mozliwe_spoznienieLabel
+            // 
+            mozliwe_spoznienieLabel.AutoSize = true;
+            mozliwe_spoznienieLabel.Location = new System.Drawing.Point(16, 108);
+            mozliwe_spoznienieLabel.Name = "mozliwe_spoznienieLabel";
+            mozliwe_spoznienieLabel.Size = new System.Drawing.Size(101, 13);
+            mozliwe_spoznienieLabel.TabIndex = 11;
+            mozliwe_spoznienieLabel.Text = "Mozliwe spoznienie:";
+            // 
+            // dokad_szerLabel
+            // 
+            dokad_szerLabel.AutoSize = true;
+            dokad_szerLabel.Location = new System.Drawing.Point(27, 56);
+            dokad_szerLabel.Name = "dokad_szerLabel";
+            dokad_szerLabel.Size = new System.Drawing.Size(90, 13);
+            dokad_szerLabel.TabIndex = 5;
+            dokad_szerLabel.Text = "Dokąd (długość):";
+            // 
+            // przyblizony_czas_drogiLabel
+            // 
+            przyblizony_czas_drogiLabel.AutoSize = true;
+            przyblizony_czas_drogiLabel.Location = new System.Drawing.Point(4, 134);
+            przyblizony_czas_drogiLabel.Name = "przyblizony_czas_drogiLabel";
+            przyblizony_czas_drogiLabel.Size = new System.Drawing.Size(113, 13);
+            przyblizony_czas_drogiLabel.TabIndex = 13;
+            przyblizony_czas_drogiLabel.Text = "Przyblizony czas drogi:";
+            // 
+            // skad_dlLabel
+            // 
+            skad_dlLabel.AutoSize = true;
+            skad_dlLabel.Location = new System.Drawing.Point(252, 28);
+            skad_dlLabel.Name = "skad_dlLabel";
+            skad_dlLabel.Size = new System.Drawing.Size(46, 13);
+            skad_dlLabel.TabIndex = 3;
+            skad_dlLabel.Text = "Skad dl:";
+            // 
+            // skad_szerLabel
+            // 
+            skad_szerLabel.AutoSize = true;
+            skad_szerLabel.Location = new System.Drawing.Point(28, 30);
+            skad_szerLabel.Name = "skad_szerLabel";
+            skad_szerLabel.Size = new System.Drawing.Size(92, 13);
+            skad_szerLabel.TabIndex = 1;
+            skad_szerLabel.Text = "Skąd (szerokość):";
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabControl1.Controls.Add(this.tabPageDrivers);
+            this.tabControl1.Controls.Add(this.tabPageComissions);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(883, 542);
+            this.tabControl1.Size = new System.Drawing.Size(689, 691);
             this.tabControl1.TabIndex = 0;
             // 
-            // tabPage1
+            // tabPageDrivers
             // 
-            this.tabPage1.AutoScroll = true;
-            this.tabPage1.Controls.Add(this.samochodBindingNavigator);
-            this.tabPage1.Controls.Add(this.samochodDataGridView);
-            this.tabPage1.Controls.Add(this.kierowcaBindingNavigator);
-            this.tabPage1.Controls.Add(this.kierowcaDataGridView);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(875, 516);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageDrivers.AutoScroll = true;
+            this.tabPageDrivers.Controls.Add(this.samochodBindingNavigator);
+            this.tabPageDrivers.Controls.Add(this.samochodDataGridView);
+            this.tabPageDrivers.Controls.Add(this.kierowcaBindingNavigator);
+            this.tabPageDrivers.Controls.Add(this.kierowcaDataGridView);
+            this.tabPageDrivers.Location = new System.Drawing.Point(4, 22);
+            this.tabPageDrivers.Name = "tabPageDrivers";
+            this.tabPageDrivers.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDrivers.Size = new System.Drawing.Size(681, 665);
+            this.tabPageDrivers.TabIndex = 0;
+            this.tabPageDrivers.Text = "Kierowcy";
+            this.tabPageDrivers.UseVisualStyleBackColor = true;
+            this.tabPageDrivers.Click += new System.EventHandler(this.tabPageDrivers_Click);
             // 
             // samochodBindingNavigator
             // 
@@ -299,6 +362,7 @@
             // samochodDataGridView
             // 
             this.samochodDataGridView.AutoGenerateColumns = false;
+            this.samochodDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.samochodDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.samochodDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -308,9 +372,9 @@
             this.dataGridViewTextBoxColumn8,
             this.dataGridViewTextBoxColumn9});
             this.samochodDataGridView.DataSource = this.samochodBindingSource;
-            this.samochodDataGridView.Location = new System.Drawing.Point(3, 290);
+            this.samochodDataGridView.Location = new System.Drawing.Point(6, 290);
             this.samochodDataGridView.Name = "samochodDataGridView";
-            this.samochodDataGridView.Size = new System.Drawing.Size(643, 220);
+            this.samochodDataGridView.Size = new System.Drawing.Size(674, 220);
             this.samochodDataGridView.TabIndex = 2;
             // 
             // dataGridViewTextBoxColumn1
@@ -482,6 +546,7 @@
             // kierowcaDataGridView
             // 
             this.kierowcaDataGridView.AutoGenerateColumns = false;
+            this.kierowcaDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.kierowcaDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.kierowcaDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
@@ -490,7 +555,7 @@
             this.kierowcaDataGridView.DataSource = this.kierowcaBindingSource;
             this.kierowcaDataGridView.Location = new System.Drawing.Point(6, 39);
             this.kierowcaDataGridView.Name = "kierowcaDataGridView";
-            this.kierowcaDataGridView.Size = new System.Drawing.Size(345, 220);
+            this.kierowcaDataGridView.Size = new System.Drawing.Size(674, 220);
             this.kierowcaDataGridView.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn2
@@ -511,245 +576,33 @@
             this.dataGridViewTextBoxColumn4.HeaderText = "Nr_telefonu";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             // 
-            // tabPage2
+            // tabPageComissions
             // 
-            this.tabPage2.AutoScroll = true;
-            this.tabPage2.Controls.Add(this.panel1);
-            this.tabPage2.Controls.Add(this.gMap1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(875, 516);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // zlecenieBindingSource
-            // 
-            this.zlecenieBindingSource.DataMember = "Zlecenie";
-            this.zlecenieBindingSource.DataSource = this._baza_danychDataSet;
-            // 
-            // gMap1
-            // 
-            this.gMap1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gMap1.Bearing = 0F;
-            this.gMap1.CanDragMap = true;
-            this.gMap1.EmptyTileColor = System.Drawing.Color.Navy;
-            this.gMap1.GrayScaleMode = false;
-            this.gMap1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMap1.LevelsKeepInMemmory = 5;
-            this.gMap1.Location = new System.Drawing.Point(432, 6);
-            this.gMap1.MarkersEnabled = true;
-            this.gMap1.MaxZoom = 2;
-            this.gMap1.MinZoom = 2;
-            this.gMap1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.gMap1.Name = "gMap1";
-            this.gMap1.NegativeMode = false;
-            this.gMap1.PolygonsEnabled = true;
-            this.gMap1.RetryLoadTile = 0;
-            this.gMap1.RoutesEnabled = true;
-            this.gMap1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.gMap1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.gMap1.ShowTileGridLines = false;
-            this.gMap1.Size = new System.Drawing.Size(437, 504);
-            this.gMap1.TabIndex = 0;
-            this.gMap1.Zoom = 0D;
-            // 
-            // kierowcaTableAdapter
-            // 
-            this.kierowcaTableAdapter.ClearBeforeFill = true;
-            // 
-            // tableAdapterManager
-            // 
-            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
-            this.tableAdapterManager.Kierowca_ZlecenieTableAdapter = null;
-            this.tableAdapterManager.KierowcaTableAdapter = this.kierowcaTableAdapter;
-            this.tableAdapterManager.SamochodTableAdapter = this.samochodTableAdapter;
-            this.tableAdapterManager.Status_kierowcyTableAdapter = null;
-            this.tableAdapterManager.UpdateOrder = Taksówki._baza_danychDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
-            this.tableAdapterManager.ZlecenieTableAdapter = null;
-            // 
-            // samochodTableAdapter
-            // 
-            this.samochodTableAdapter.ClearBeforeFill = true;
-            // 
-            // zlecenieTableAdapter
-            // 
-            this.zlecenieTableAdapter.ClearBeforeFill = true;
-            // 
-            // czas_poczatkowyLabel
-            // 
-            czas_poczatkowyLabel.AutoSize = true;
-            czas_poczatkowyLabel.Location = new System.Drawing.Point(24, 83);
-            czas_poczatkowyLabel.Name = "czas_poczatkowyLabel";
-            czas_poczatkowyLabel.Size = new System.Drawing.Size(93, 13);
-            czas_poczatkowyLabel.TabIndex = 9;
-            czas_poczatkowyLabel.Text = "Czas poczatkowy:";
-            // 
-            // czas_poczatkowyDateTimePicker
-            // 
-            this.czas_poczatkowyDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.zlecenieBindingSource, "Czas_poczatkowy", true));
-            this.czas_poczatkowyDateTimePicker.Location = new System.Drawing.Point(123, 79);
-            this.czas_poczatkowyDateTimePicker.Name = "czas_poczatkowyDateTimePicker";
-            this.czas_poczatkowyDateTimePicker.Size = new System.Drawing.Size(281, 20);
-            this.czas_poczatkowyDateTimePicker.TabIndex = 10;
-            // 
-            // mozliwe_spoznienieTextBox
-            // 
-            this.mozliwe_spoznienieTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Mozliwe_spoznienie", true));
-            this.mozliwe_spoznienieTextBox.Location = new System.Drawing.Point(123, 105);
-            this.mozliwe_spoznienieTextBox.Name = "mozliwe_spoznienieTextBox";
-            this.mozliwe_spoznienieTextBox.Size = new System.Drawing.Size(100, 20);
-            this.mozliwe_spoznienieTextBox.TabIndex = 12;
-            // 
-            // dokad_dlLabel
-            // 
-            dokad_dlLabel.AutoSize = true;
-            dokad_dlLabel.Location = new System.Drawing.Point(245, 53);
-            dokad_dlLabel.Name = "dokad_dlLabel";
-            dokad_dlLabel.Size = new System.Drawing.Size(53, 13);
-            dokad_dlLabel.TabIndex = 7;
-            dokad_dlLabel.Text = "Dokad dl:";
-            // 
-            // mozliwe_spoznienieLabel
-            // 
-            mozliwe_spoznienieLabel.AutoSize = true;
-            mozliwe_spoznienieLabel.Location = new System.Drawing.Point(16, 108);
-            mozliwe_spoznienieLabel.Name = "mozliwe_spoznienieLabel";
-            mozliwe_spoznienieLabel.Size = new System.Drawing.Size(101, 13);
-            mozliwe_spoznienieLabel.TabIndex = 11;
-            mozliwe_spoznienieLabel.Text = "Mozliwe spoznienie:";
-            // 
-            // dokad_dlTextBox
-            // 
-            this.dokad_dlTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Dokad_dl", true));
-            this.dokad_dlTextBox.Location = new System.Drawing.Point(304, 50);
-            this.dokad_dlTextBox.Name = "dokad_dlTextBox";
-            this.dokad_dlTextBox.ReadOnly = true;
-            this.dokad_dlTextBox.Size = new System.Drawing.Size(100, 20);
-            this.dokad_dlTextBox.TabIndex = 8;
-            // 
-            // przyblizony_czas_drogiTextBox
-            // 
-            this.przyblizony_czas_drogiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Przyblizony_czas_drogi", true));
-            this.przyblizony_czas_drogiTextBox.Location = new System.Drawing.Point(123, 131);
-            this.przyblizony_czas_drogiTextBox.Name = "przyblizony_czas_drogiTextBox";
-            this.przyblizony_czas_drogiTextBox.ReadOnly = true;
-            this.przyblizony_czas_drogiTextBox.Size = new System.Drawing.Size(100, 20);
-            this.przyblizony_czas_drogiTextBox.TabIndex = 14;
-            // 
-            // dokad_szerLabel
-            // 
-            dokad_szerLabel.AutoSize = true;
-            dokad_szerLabel.Location = new System.Drawing.Point(27, 56);
-            dokad_szerLabel.Name = "dokad_szerLabel";
-            dokad_szerLabel.Size = new System.Drawing.Size(90, 13);
-            dokad_szerLabel.TabIndex = 5;
-            dokad_szerLabel.Text = "Dokąd (długość):";
-            // 
-            // przyblizony_czas_drogiLabel
-            // 
-            przyblizony_czas_drogiLabel.AutoSize = true;
-            przyblizony_czas_drogiLabel.Location = new System.Drawing.Point(4, 134);
-            przyblizony_czas_drogiLabel.Name = "przyblizony_czas_drogiLabel";
-            przyblizony_czas_drogiLabel.Size = new System.Drawing.Size(113, 13);
-            przyblizony_czas_drogiLabel.TabIndex = 13;
-            przyblizony_czas_drogiLabel.Text = "Przyblizony czas drogi:";
-            // 
-            // dokad_szerTextBox
-            // 
-            this.dokad_szerTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Dokad_szer", true));
-            this.dokad_szerTextBox.Location = new System.Drawing.Point(123, 53);
-            this.dokad_szerTextBox.Name = "dokad_szerTextBox";
-            this.dokad_szerTextBox.ReadOnly = true;
-            this.dokad_szerTextBox.Size = new System.Drawing.Size(100, 20);
-            this.dokad_szerTextBox.TabIndex = 6;
-            // 
-            // vIPTextBox
-            // 
-            this.vIPTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "VIP", true));
-            this.vIPTextBox.Location = new System.Drawing.Point(123, 157);
-            this.vIPTextBox.Name = "vIPTextBox";
-            this.vIPTextBox.Size = new System.Drawing.Size(100, 20);
-            this.vIPTextBox.TabIndex = 16;
-            // 
-            // skad_dlLabel
-            // 
-            skad_dlLabel.AutoSize = true;
-            skad_dlLabel.Location = new System.Drawing.Point(252, 28);
-            skad_dlLabel.Name = "skad_dlLabel";
-            skad_dlLabel.Size = new System.Drawing.Size(46, 13);
-            skad_dlLabel.TabIndex = 3;
-            skad_dlLabel.Text = "Skad dl:";
-            // 
-            // vIPLabel
-            // 
-            vIPLabel.AutoSize = true;
-            vIPLabel.Location = new System.Drawing.Point(90, 160);
-            vIPLabel.Name = "vIPLabel";
-            vIPLabel.Size = new System.Drawing.Size(27, 13);
-            vIPLabel.TabIndex = 15;
-            vIPLabel.Text = "VIP:";
-            // 
-            // skad_dlTextBox
-            // 
-            this.skad_dlTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Skad_dl", true));
-            this.skad_dlTextBox.Location = new System.Drawing.Point(304, 25);
-            this.skad_dlTextBox.Name = "skad_dlTextBox";
-            this.skad_dlTextBox.ReadOnly = true;
-            this.skad_dlTextBox.Size = new System.Drawing.Size(100, 20);
-            this.skad_dlTextBox.TabIndex = 4;
-            // 
-            // distanceLabel
-            // 
-            this.distanceLabel.AutoSize = true;
-            this.distanceLabel.Location = new System.Drawing.Point(227, 134);
-            this.distanceLabel.Name = "distanceLabel";
-            this.distanceLabel.Size = new System.Drawing.Size(71, 13);
-            this.distanceLabel.TabIndex = 17;
-            this.distanceLabel.Text = "Dystans (km):";
-            // 
-            // skad_szerLabel
-            // 
-            skad_szerLabel.AutoSize = true;
-            skad_szerLabel.Location = new System.Drawing.Point(28, 30);
-            skad_szerLabel.Name = "skad_szerLabel";
-            skad_szerLabel.Size = new System.Drawing.Size(92, 13);
-            skad_szerLabel.TabIndex = 1;
-            skad_szerLabel.Text = "Skąd (szerokość):";
-            // 
-            // distanceTB
-            // 
-            this.distanceTB.Location = new System.Drawing.Point(305, 131);
-            this.distanceTB.Name = "distanceTB";
-            this.distanceTB.ReadOnly = true;
-            this.distanceTB.Size = new System.Drawing.Size(100, 20);
-            this.distanceTB.TabIndex = 18;
-            // 
-            // skad_szerTextBox
-            // 
-            this.skad_szerTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Skad_szer", true));
-            this.skad_szerTextBox.Location = new System.Drawing.Point(123, 27);
-            this.skad_szerTextBox.Name = "skad_szerTextBox";
-            this.skad_szerTextBox.ReadOnly = true;
-            this.skad_szerTextBox.Size = new System.Drawing.Size(100, 20);
-            this.skad_szerTextBox.TabIndex = 2;
+            this.tabPageComissions.AutoScroll = true;
+            this.tabPageComissions.Controls.Add(this.panel1);
+            this.tabPageComissions.Location = new System.Drawing.Point(4, 22);
+            this.tabPageComissions.Name = "tabPageComissions";
+            this.tabPageComissions.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageComissions.Size = new System.Drawing.Size(681, 665);
+            this.tabPageComissions.TabIndex = 1;
+            this.tabPageComissions.Text = "Zlecenia";
+            this.tabPageComissions.UseVisualStyleBackColor = true;
+            this.tabPageComissions.Click += new System.EventHandler(this.tabPageComissions_Click);
             // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.checkBoxVip);
+            this.panel1.Controls.Add(this.buttonNewComission);
+            this.panel1.Controls.Add(this.applyZlecenieFormButton);
             this.panel1.Controls.Add(this.zlecenieDataGridView);
             this.panel1.Controls.Add(this.skad_szerTextBox);
             this.panel1.Controls.Add(this.distanceTB);
             this.panel1.Controls.Add(skad_szerLabel);
             this.panel1.Controls.Add(this.distanceLabel);
             this.panel1.Controls.Add(this.skad_dlTextBox);
-            this.panel1.Controls.Add(vIPLabel);
             this.panel1.Controls.Add(skad_dlLabel);
-            this.panel1.Controls.Add(this.vIPTextBox);
             this.panel1.Controls.Add(this.dokad_szerTextBox);
             this.panel1.Controls.Add(przyblizony_czas_drogiLabel);
             this.panel1.Controls.Add(dokad_szerLabel);
@@ -762,12 +615,46 @@
             this.panel1.Controls.Add(czas_poczatkowyLabel);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(425, 504);
+            this.panel1.Size = new System.Drawing.Size(1118, 636);
             this.panel1.TabIndex = 19;
+            // 
+            // checkBoxVip
+            // 
+            this.checkBoxVip.AutoSize = true;
+            this.checkBoxVip.Location = new System.Drawing.Point(123, 158);
+            this.checkBoxVip.Name = "checkBoxVip";
+            this.checkBoxVip.Size = new System.Drawing.Size(43, 17);
+            this.checkBoxVip.TabIndex = 21;
+            this.checkBoxVip.Text = "VIP";
+            this.checkBoxVip.UseVisualStyleBackColor = true;
+            // 
+            // buttonNewComission
+            // 
+            this.buttonNewComission.Location = new System.Drawing.Point(7, 3);
+            this.buttonNewComission.Name = "buttonNewComission";
+            this.buttonNewComission.Size = new System.Drawing.Size(110, 23);
+            this.buttonNewComission.TabIndex = 20;
+            this.buttonNewComission.Text = "Nowe zlecenie";
+            this.buttonNewComission.UseVisualStyleBackColor = true;
+            this.buttonNewComission.Click += new System.EventHandler(this.buttonNewComission_Click);
+            // 
+            // applyZlecenieFormButton
+            // 
+            this.applyZlecenieFormButton.Location = new System.Drawing.Point(123, 181);
+            this.applyZlecenieFormButton.Name = "applyZlecenieFormButton";
+            this.applyZlecenieFormButton.Size = new System.Drawing.Size(281, 23);
+            this.applyZlecenieFormButton.TabIndex = 20;
+            this.applyZlecenieFormButton.Text = "Wyślij";
+            this.applyZlecenieFormButton.UseVisualStyleBackColor = true;
+            this.applyZlecenieFormButton.Click += new System.EventHandler(this.applyZlecenieFormButton_Click);
             // 
             // zlecenieDataGridView
             // 
+            this.zlecenieDataGridView.AllowUserToAddRows = false;
+            this.zlecenieDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.zlecenieDataGridView.AutoGenerateColumns = false;
+            this.zlecenieDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.zlecenieDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.zlecenieDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn10,
@@ -780,10 +667,11 @@
             this.dataGridViewTextBoxColumn17,
             this.dataGridViewTextBoxColumn18});
             this.zlecenieDataGridView.DataSource = this.zlecenieBindingSource;
-            this.zlecenieDataGridView.Location = new System.Drawing.Point(7, 219);
+            this.zlecenieDataGridView.Location = new System.Drawing.Point(3, 221);
             this.zlecenieDataGridView.Name = "zlecenieDataGridView";
-            this.zlecenieDataGridView.Size = new System.Drawing.Size(397, 220);
+            this.zlecenieDataGridView.Size = new System.Drawing.Size(669, 220);
             this.zlecenieDataGridView.TabIndex = 18;
+            this.zlecenieDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.zlecenieDataGridView_CellClick);
             // 
             // dataGridViewTextBoxColumn10
             // 
@@ -839,18 +727,157 @@
             this.dataGridViewTextBoxColumn18.HeaderText = "VIP";
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             // 
+            // zlecenieBindingSource
+            // 
+            this.zlecenieBindingSource.DataMember = "Zlecenie";
+            this.zlecenieBindingSource.DataSource = this._baza_danychDataSet;
+            // 
+            // skad_szerTextBox
+            // 
+            this.skad_szerTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Skad_szer", true));
+            this.skad_szerTextBox.Location = new System.Drawing.Point(123, 27);
+            this.skad_szerTextBox.Name = "skad_szerTextBox";
+            this.skad_szerTextBox.ReadOnly = true;
+            this.skad_szerTextBox.Size = new System.Drawing.Size(100, 20);
+            this.skad_szerTextBox.TabIndex = 2;
+            // 
+            // distanceTB
+            // 
+            this.distanceTB.Location = new System.Drawing.Point(305, 131);
+            this.distanceTB.Name = "distanceTB";
+            this.distanceTB.ReadOnly = true;
+            this.distanceTB.Size = new System.Drawing.Size(100, 20);
+            this.distanceTB.TabIndex = 18;
+            // 
+            // distanceLabel
+            // 
+            this.distanceLabel.AutoSize = true;
+            this.distanceLabel.Location = new System.Drawing.Point(227, 134);
+            this.distanceLabel.Name = "distanceLabel";
+            this.distanceLabel.Size = new System.Drawing.Size(71, 13);
+            this.distanceLabel.TabIndex = 17;
+            this.distanceLabel.Text = "Dystans (km):";
+            // 
+            // skad_dlTextBox
+            // 
+            this.skad_dlTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Skad_dl", true));
+            this.skad_dlTextBox.Location = new System.Drawing.Point(304, 25);
+            this.skad_dlTextBox.Name = "skad_dlTextBox";
+            this.skad_dlTextBox.ReadOnly = true;
+            this.skad_dlTextBox.Size = new System.Drawing.Size(100, 20);
+            this.skad_dlTextBox.TabIndex = 4;
+            // 
+            // dokad_szerTextBox
+            // 
+            this.dokad_szerTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Dokad_szer", true));
+            this.dokad_szerTextBox.Location = new System.Drawing.Point(123, 53);
+            this.dokad_szerTextBox.Name = "dokad_szerTextBox";
+            this.dokad_szerTextBox.ReadOnly = true;
+            this.dokad_szerTextBox.Size = new System.Drawing.Size(100, 20);
+            this.dokad_szerTextBox.TabIndex = 6;
+            // 
+            // przyblizony_czas_drogiTextBox
+            // 
+            this.przyblizony_czas_drogiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Przyblizony_czas_drogi", true));
+            this.przyblizony_czas_drogiTextBox.Location = new System.Drawing.Point(123, 131);
+            this.przyblizony_czas_drogiTextBox.Name = "przyblizony_czas_drogiTextBox";
+            this.przyblizony_czas_drogiTextBox.ReadOnly = true;
+            this.przyblizony_czas_drogiTextBox.Size = new System.Drawing.Size(100, 20);
+            this.przyblizony_czas_drogiTextBox.TabIndex = 14;
+            // 
+            // dokad_dlTextBox
+            // 
+            this.dokad_dlTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Dokad_dl", true));
+            this.dokad_dlTextBox.Location = new System.Drawing.Point(304, 50);
+            this.dokad_dlTextBox.Name = "dokad_dlTextBox";
+            this.dokad_dlTextBox.ReadOnly = true;
+            this.dokad_dlTextBox.Size = new System.Drawing.Size(100, 20);
+            this.dokad_dlTextBox.TabIndex = 8;
+            // 
+            // mozliwe_spoznienieTextBox
+            // 
+            this.mozliwe_spoznienieTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.zlecenieBindingSource, "Mozliwe_spoznienie", true));
+            this.mozliwe_spoznienieTextBox.Location = new System.Drawing.Point(123, 105);
+            this.mozliwe_spoznienieTextBox.Name = "mozliwe_spoznienieTextBox";
+            this.mozliwe_spoznienieTextBox.Size = new System.Drawing.Size(100, 20);
+            this.mozliwe_spoznienieTextBox.TabIndex = 12;
+            // 
+            // czas_poczatkowyDateTimePicker
+            // 
+            this.czas_poczatkowyDateTimePicker.CustomFormat = "dd:MM:yyyy HH:mm:ss";
+            this.czas_poczatkowyDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.zlecenieBindingSource, "Czas_poczatkowy", true));
+            this.czas_poczatkowyDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.czas_poczatkowyDateTimePicker.Location = new System.Drawing.Point(123, 79);
+            this.czas_poczatkowyDateTimePicker.MinDate = new System.DateTime(2015, 4, 26, 0, 0, 0, 0);
+            this.czas_poczatkowyDateTimePicker.Name = "czas_poczatkowyDateTimePicker";
+            this.czas_poczatkowyDateTimePicker.ShowUpDown = true;
+            this.czas_poczatkowyDateTimePicker.Size = new System.Drawing.Size(281, 20);
+            this.czas_poczatkowyDateTimePicker.TabIndex = 10;
+            this.czas_poczatkowyDateTimePicker.Value = new System.DateTime(2015, 4, 26, 12, 40, 53, 0);
+            // 
+            // gMap1
+            // 
+            this.gMap1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gMap1.Bearing = 0F;
+            this.gMap1.CanDragMap = true;
+            this.gMap1.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMap1.GrayScaleMode = false;
+            this.gMap1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMap1.LevelsKeepInMemmory = 5;
+            this.gMap1.Location = new System.Drawing.Point(707, 34);
+            this.gMap1.MarkersEnabled = true;
+            this.gMap1.MaxZoom = 2;
+            this.gMap1.MinZoom = 2;
+            this.gMap1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMap1.Name = "gMap1";
+            this.gMap1.NegativeMode = false;
+            this.gMap1.PolygonsEnabled = true;
+            this.gMap1.RetryLoadTile = 0;
+            this.gMap1.RoutesEnabled = true;
+            this.gMap1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMap1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMap1.ShowTileGridLines = false;
+            this.gMap1.Size = new System.Drawing.Size(443, 669);
+            this.gMap1.TabIndex = 0;
+            this.gMap1.Zoom = 0D;
+            // 
+            // kierowcaTableAdapter
+            // 
+            this.kierowcaTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.Kierowca_ZlecenieTableAdapter = null;
+            this.tableAdapterManager.KierowcaTableAdapter = this.kierowcaTableAdapter;
+            this.tableAdapterManager.SamochodTableAdapter = this.samochodTableAdapter;
+            this.tableAdapterManager.Status_kierowcyTableAdapter = null;
+            this.tableAdapterManager.UpdateOrder = Taksówki._baza_danychDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            this.tableAdapterManager.ZlecenieTableAdapter = null;
+            // 
+            // samochodTableAdapter
+            // 
+            this.samochodTableAdapter.ClearBeforeFill = true;
+            // 
+            // zlecenieTableAdapter
+            // 
+            this.zlecenieTableAdapter.ClearBeforeFill = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(907, 577);
+            this.ClientSize = new System.Drawing.Size(1162, 715);
             this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.gMap1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabPageDrivers.ResumeLayout(false);
+            this.tabPageDrivers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingNavigator)).EndInit();
             this.samochodBindingNavigator.ResumeLayout(false);
             this.samochodBindingNavigator.PerformLayout();
@@ -862,11 +889,11 @@
             this.kierowcaBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kierowcaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kierowcaDataGridView)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.zlecenieBindingSource)).EndInit();
+            this.tabPageComissions.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zlecenieDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zlecenieBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -874,8 +901,8 @@
         #endregion
 
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageDrivers;
+        private System.Windows.Forms.TabPage tabPageComissions;
         private _baza_danychDataSet _baza_danychDataSet;
         private System.Windows.Forms.BindingSource kierowcaBindingSource;
         private _baza_danychDataSetTableAdapters.KierowcaTableAdapter kierowcaTableAdapter;
@@ -927,7 +954,6 @@
         private System.Windows.Forms.TextBox distanceTB;
         private System.Windows.Forms.Label distanceLabel;
         private System.Windows.Forms.TextBox skad_dlTextBox;
-        private System.Windows.Forms.TextBox vIPTextBox;
         private System.Windows.Forms.TextBox dokad_szerTextBox;
         private System.Windows.Forms.TextBox przyblizony_czas_drogiTextBox;
         private System.Windows.Forms.TextBox dokad_dlTextBox;
@@ -943,6 +969,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn16;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn17;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn18;
+        private System.Windows.Forms.Button applyZlecenieFormButton;
+        private System.Windows.Forms.CheckBox checkBoxVip;
+        private System.Windows.Forms.Button buttonNewComission;
     }
 }
 
