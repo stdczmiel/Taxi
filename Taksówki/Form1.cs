@@ -55,16 +55,6 @@ namespace Taksówki
             gMap1.MinZoom = 0;
             gMap1.MaxZoom = 24;
             gMap1.Zoom = 12;
-
-            // add your custom map db provider
-            //GMap.NET.CacheProviders.MySQLPureImageCache ch = new GMap.NET.CacheProviders.MySQLPureImageCache();
-            //ch.ConnectionString = @"server=sql2008;User Id=trolis;Persist Security Info=True;database=gmapnetcache;password=trolis;";
-            //gMap1.Manager.SecondaryCache = ch;
-
-            // set your proxy here if need
-            //GMapProvider.WebProxy = new WebProxy("10.2.0.100", 8080);
-            //GMapProvider.WebProxy.Credentials = new NetworkCredential("ogrenci@bilgeadam.com", "bilgeada");
-
             // map events
             {
                 gMap1.MouseDown += new MouseEventHandler(MainMap_MouseDown);
@@ -72,27 +62,6 @@ namespace Taksówki
                 gMap1.MouseDoubleClick += new MouseEventHandler(MainMap_MouseDoubleClick);
                 gMap1.OnMarkerClick += new MarkerClick(MainMap_OnMarkerClick);
                 gMap1.MouseUp += new MouseEventHandler(MainMap_MouseUp);
-     /*         gMap1.OnPositionChanged += new PositionChanged(gMap1_OnPositionChanged);
-
-                gMap1.OnTileLoadStart += new TileLoadStart(gMap1_OnTileLoadStart);
-                gMap1.OnTileLoadComplete += new TileLoadComplete(gMap1_OnTileLoadComplete);
-
-                gMap1.OnMapZoomChanged += new MapZoomChanged(gMap1_OnMapZoomChanged);
-                gMap1.OnMapTypeChanged += new MapTypeChanged(gMap1_OnMapTypeChanged);
-
-                gMap1.OnMarkerClick += new MarkerClick(gMap1_OnMarkerClick);
-                gMap1.OnMarkerEnter += new MarkerEnter(gMap1_OnMarkerEnter);
-                gMap1.OnMarkerLeave += new MarkerLeave(gMap1_OnMarkerLeave);
-
-                gMap1.OnPolygonEnter += new PolygonEnter(gMap1_OnPolygonEnter);
-                gMap1.OnPolygonLeave += new PolygonLeave(gMap1_OnPolygonLeave);
-
-                gMap1.OnRouteEnter += new RouteEnter(gMap1_OnRouteEnter);
-                gMap1.OnRouteLeave += new RouteLeave(gMap1_OnRouteLeave);
-
-                gMap1.Manager.OnTileCacheComplete += new TileCacheComplete(OnTileCacheComplete);
-                gMap1.Manager.OnTileCacheStart += new TileCacheStart(OnTileCacheStart);
-                gMap1.Manager.OnTileCacheProgress += new TileCacheProgress(OnTileCacheProgress);*/
             }
             gMap1.Overlays.Add(routes);
             gMap1.Overlays.Add(objects);
@@ -394,11 +363,6 @@ namespace Taksówki
                     break;
             }
         }
-
-   /*     using (var context = new taxiEntities()){
-            var drivers = (from k in context.Kierowcy).ToList<Kierowca>();
-        }*/
-
     }
            
 }
