@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
-using Taksówki.CustomMarkers;
 using System.Diagnostics;
 using GMap.NET.WindowsForms.Markers;
 using System.Data.Entity;
@@ -25,8 +24,6 @@ namespace Taksówki
         internal readonly GMapOverlay routes = new GMapOverlay("routes");
 
         private taxiEntities dbTaxiContext = new taxiEntities();
-
-        private int currentTab = 0;
 
         // marker
         GMapMarker currentMarker;
@@ -105,7 +102,7 @@ namespace Taksówki
 
         void MainMap_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (currentTab == 1 && top.Markers.Count < 2)
+            if (tabControl1.SelectedIndex == 1 && top.Markers.Count < 2)
             {
                 currentMarker = new GMarkerGoogle(gMap1.FromLocalToLatLng(e.X, e.Y), GMarkerGoogleType.red);
                 if (top.Markers.Count == 0)
@@ -141,7 +138,7 @@ namespace Taksówki
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && top.Markers.Count == 2 && markerMoved)
+            if (tabControl1.SelectedIndex == 1 && e.Button == MouseButtons.Left && top.Markers.Count == 2 && markerMoved)
             {
                 if (currentMarker.ToolTipText == "Poczatek trasy")
                 {
@@ -161,7 +158,7 @@ namespace Taksówki
 
         void MainMap_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && isMouseDown)
+            if (tabControl1.SelectedIndex == 1 && e.Button == MouseButtons.Left && isMouseDown)
             {
                 if (currentMarker != null && currentMarker.IsVisible)
                 {
@@ -232,6 +229,8 @@ namespace Taksówki
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the '_baza_danychDataSet.Status_kierowcy' table. You can move, or remove it, as needed.
+            this.status_kierowcyTableAdapter.Fill(this._baza_danychDataSet.Status_kierowcy);
             // TODO: This line of code loads data into the '_baza_danychDataSet.Zlecenie' table. You can move, or remove it, as needed.
             this.zlecenieTableAdapter.Fill(this._baza_danychDataSet.Zlecenie);
             // TODO: This line of code loads data into the '_baza_danychDataSet.Samochod' table. You can move, or remove it, as needed.
@@ -257,10 +256,18 @@ namespace Taksówki
             this.tableAdapterManager.UpdateAll(this._baza_danychDataSet);
         }
 
+        private void status_KierowcyBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.status_kierowcyBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this._baza_danychDataSet);
+            addDriversToMap();
+        }
+
         private void zlecenieDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Zaktualizowanie formy
-            if (e.RowIndex < this._baza_danychDataSet.Zlecenie.Count())
+            if (e.RowIndex >=0 && e.RowIndex < this._baza_danychDataSet.Zlecenie.Count())
             {
                 currentZlecenieId = this._baza_danychDataSet.Zlecenie.ElementAt(e.RowIndex).ID_zlecenie;
                 skad_dlTextBox.Text = this._baza_danychDataSet.Zlecenie.ElementAt(e.RowIndex).Skad_dl.ToString();
@@ -372,14 +379,20 @@ namespace Taksówki
             checkBoxVip.Checked = false;
         }
 
-        private void tabPageDrivers_Click(object sender, EventArgs e)
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentTab = 0;
-        }
-
-        private void tabPageComissions_Click(object sender, EventArgs e)
-        {
-            currentTab = 1;
+            clearMap();
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0:                 // kierowcy
+                    addDriversToMap();
+                    break;
+                case 1:                 // zlecenia
+                    zlecenieDataGridView_CellClick(zlecenieDataGridView, new DataGridViewCellEventArgs(0, 0));
+                    break;
+                default:
+                    break;
+            }
         }
 
    /*     using (var context = new taxiEntities()){
