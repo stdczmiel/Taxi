@@ -324,6 +324,7 @@ namespace Taksówki
         {
             clearZlecenieForm();
             clearMap();
+            Gantt();
         }
 
         public void clearZlecenieForm()
@@ -388,7 +389,7 @@ namespace Taksówki
 
         }
         #endregion
-
+        #region gantt
         public void Gantt(string baseTime = "hours", List<ChartEvent> e = null)
         {
             this.baseTime = baseTime;
@@ -403,7 +404,9 @@ namespace Taksówki
                 ChartEvent chartEvent = new ChartEvent(com.Czas_poczatkowy, com.Przyblizony_czas_drogi, com.Mozliwe_spoznienie, com.ID_zlecenie.ToString());
                 events.Add(chartEvent);
             }
-            
+            itemBar.Controls.Clear();
+            timeBar.Controls.Clear();
+            chartPanel.Controls.Clear();
             drawItemsOnChart();
         }
 
@@ -412,20 +415,33 @@ namespace Taksówki
             ChartEvent maxDateEvent = events.ElementAt(findCmax());
             DateTime maxDate = maxDateEvent.EventStartTime.AddMinutes(maxDateEvent.PossibleDelay + maxDateEvent.EventLength);
             int hours = (int)Math.Ceiling(maxDate.AddHours(1).Subtract(startTime).TotalHours);
-            
-            Label label0 = new Label();
-            label0.Text = startTime.Day.ToString() + "-" + startTime.Month.ToString() + "-" + startTime.Year.ToString();
-            label0.TextAlign = ContentAlignment.MiddleCenter;
-            label0.BorderStyle = BorderStyle.FixedSingle;
-            label0.Width = (24-startTime.Hour)*60;
-            label0.Height = 25;
-            label0.Padding = new Padding(0);
-            label0.Margin = new Padding(0);
-            Point position0 = new Point(0, 1);
-            label0.Location = position0;
-            timeBar.Controls.Add(label0);
+            int days = (int)Math.Ceiling(maxDate.AddHours(1).Subtract(startTime).TotalDays);
+            for (int i = 0; i < days; ++i)
+            {
+                Label label0 = new Label();
+                label0.Text = startTime.AddDays(i).Day.ToString() + "-" + startTime.AddDays(i).Month.ToString() + "-" + startTime.AddDays(i).Year.ToString();
+                label0.TextAlign = ContentAlignment.MiddleCenter;
+                label0.BorderStyle = BorderStyle.FixedSingle;
+                Point position0;
+                if (i == 0)
+                {
+                    label0.Width = (24 - startTime.Hour) * 60;
+                    position0 = new Point(0, 1);
+                }
+                else
+                {
+                    label0.Width = 24 * 60;
+                    position0 = new Point(((24 - startTime.Hour) * 60) + (24 * 60 * (i-1)), 1);
+                }
+                label0.Height = 25;
+                label0.Padding = new Padding(0);
+                label0.Margin = new Padding(0);
+                
+                label0.Location = position0;
+                timeBar.Controls.Add(label0);
+            }
 
-            for (int i = 0; i < hours; i++)
+            for (int i = 0; i < hours; ++i)
             {
                 Label label1 = new Label();
                 label1.Text = startTime.AddHours(i).Hour.ToString() + ":00";
@@ -476,7 +492,7 @@ namespace Taksówki
                 orangeLabel.Width = ev.PossibleDelay;
                 orangeLabel.Padding = new Padding(0);
                 orangeLabel.Margin = new Padding(0);
-                Point position1 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) - 2 + startTime.Minute, 50 * i);
+                Point position1 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute, 50 * i);
                 orangeLabel.Location = position1;
 
                 Label redLabel = new Label();
@@ -485,16 +501,16 @@ namespace Taksówki
                 redLabel.Width = ev.EventLength;
                 redLabel.Padding = new Padding(0);
                 redLabel.Margin = new Padding(0);
-                Point position2 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute + ev.PossibleDelay-2, 50 * i);
+                Point position2 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute + ev.PossibleDelay, 50 * i);
                 redLabel.Location = position2;
                 ToolTip toolTip = new ToolTip();
                 
                 chartPanel.Controls.Add(redLabel);
-                toolTip.SetToolTip(redLabel, redLabel.Location.ToString());
+                toolTip.SetToolTip(redLabel, ev.EventCaption);
                 chartPanel.Controls.Add(orangeLabel);
                 i++;
             }
-            while (currPos <= timeBar.Width)
+            while (currPos < timeBar.Width)
             {
                 Label label1 = new Label();
                 label1.BorderStyle = BorderStyle.FixedSingle;
@@ -504,12 +520,9 @@ namespace Taksówki
                 label1.Margin = new Padding(0);
                 label1.SendToBack();
                 label1.Name = "vertical" + currPos;
-                
-
                 Point position1 = new Point(currPos, 0);
                 label1.Location = position1;
                 chartPanel.Controls.Add(label1);
-                label1.Text = label1.Location.ToString();
                 chartPanel.Controls.Find("vertical" + currPos, false).First().SendToBack();
                 currPos += 60;
 
@@ -538,6 +551,8 @@ namespace Taksówki
         {
             labelhover.Text = (MousePosition.X - chartPanel.Location.X).ToString() +" " + (MousePosition.Y - chartPanel.Location.Y).ToString();
         }
+
+        #endregion
 
     }
     public partial class ChartEvent
