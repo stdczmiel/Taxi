@@ -39,10 +39,32 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageDrivers = new System.Windows.Forms.TabPage();
+            this.status_kierowcyDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.status_kierowcyBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this._baza_danychDataSet = new Taksówki._baza_danychDataSet();
+            this.bindingNavigatorDriverStatus = new System.Windows.Forms.BindingNavigator(this.components);
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.status_kierowcyBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
             this.samochodBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.bindingNavigatorAddNewItem1 = new System.Windows.Forms.ToolStripButton();
             this.samochodBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this._baza_danychDataSet = new Taksówki._baza_danychDataSet();
             this.bindingNavigatorCountItem1 = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorDeleteItem1 = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem1 = new System.Windows.Forms.ToolStripButton();
@@ -104,34 +126,17 @@
             this.dokad_dlTextBox = new System.Windows.Forms.TextBox();
             this.mozliwe_spoznienieTextBox = new System.Windows.Forms.TextBox();
             this.czas_poczatkowyDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.tabSchedule = new System.Windows.Forms.TabPage();
             this.gMap1 = new GMap.NET.WindowsForms.GMapControl();
             this.kierowcaTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.KierowcaTableAdapter();
             this.tableAdapterManager = new Taksówki._baza_danychDataSetTableAdapters.TableAdapterManager();
             this.samochodTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.SamochodTableAdapter();
             this.zlecenieTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.ZlecenieTableAdapter();
-            this.status_kierowcyBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.status_kierowcyTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.Status_kierowcyTableAdapter();
-            this.status_kierowcyDataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn21 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn22 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn23 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn24 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn25 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bindingNavigatorDriverStatus = new System.Windows.Forms.BindingNavigator(this.components);
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.status_kierowcyBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
+            this.itemBar = new System.Windows.Forms.FlowLayoutPanel();
+            this.chartPanel = new System.Windows.Forms.Panel();
+            this.timeBar = new System.Windows.Forms.Panel();
+            this.labelhover = new System.Windows.Forms.Label();
             czas_poczatkowyLabel = new System.Windows.Forms.Label();
             dokad_dlLabel = new System.Windows.Forms.Label();
             mozliwe_spoznienieLabel = new System.Windows.Forms.Label();
@@ -141,10 +146,14 @@
             skad_szerLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageDrivers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._baza_danychDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorDriverStatus)).BeginInit();
+            this.bindingNavigatorDriverStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingNavigator)).BeginInit();
             this.samochodBindingNavigator.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._baza_danychDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.samochodDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kierowcaBindingNavigator)).BeginInit();
             this.kierowcaBindingNavigator.SuspendLayout();
@@ -154,10 +163,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zlecenieDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.zlecenieBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorDriverStatus)).BeginInit();
-            this.bindingNavigatorDriverStatus.SuspendLayout();
+            this.tabSchedule.SuspendLayout();
             this.SuspendLayout();
             // 
             // czas_poczatkowyLabel
@@ -229,6 +235,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.tabControl1.Controls.Add(this.tabPageDrivers);
             this.tabControl1.Controls.Add(this.tabPageComissions);
+            this.tabControl1.Controls.Add(this.tabSchedule);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -252,6 +259,202 @@
             this.tabPageDrivers.TabIndex = 0;
             this.tabPageDrivers.Text = "Kierowcy";
             this.tabPageDrivers.UseVisualStyleBackColor = true;
+            // 
+            // status_kierowcyDataGridView
+            // 
+            this.status_kierowcyDataGridView.AutoGenerateColumns = false;
+            this.status_kierowcyDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.status_kierowcyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.status_kierowcyDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn19,
+            this.dataGridViewTextBoxColumn20,
+            this.dataGridViewTextBoxColumn21,
+            this.dataGridViewTextBoxColumn22,
+            this.dataGridViewTextBoxColumn23,
+            this.dataGridViewTextBoxColumn24,
+            this.dataGridViewTextBoxColumn25});
+            this.status_kierowcyDataGridView.DataSource = this.status_kierowcyBindingSource;
+            this.status_kierowcyDataGridView.Location = new System.Drawing.Point(6, 290);
+            this.status_kierowcyDataGridView.Name = "status_kierowcyDataGridView";
+            this.status_kierowcyDataGridView.Size = new System.Drawing.Size(671, 220);
+            this.status_kierowcyDataGridView.TabIndex = 4;
+            // 
+            // dataGridViewTextBoxColumn19
+            // 
+            this.dataGridViewTextBoxColumn19.DataPropertyName = "ID_statusu";
+            this.dataGridViewTextBoxColumn19.HeaderText = "ID_statusu";
+            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
+            // 
+            // dataGridViewTextBoxColumn20
+            // 
+            this.dataGridViewTextBoxColumn20.DataPropertyName = "Kierowca";
+            this.dataGridViewTextBoxColumn20.HeaderText = "Kierowca";
+            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
+            // 
+            // dataGridViewTextBoxColumn21
+            // 
+            this.dataGridViewTextBoxColumn21.DataPropertyName = "Samochod";
+            this.dataGridViewTextBoxColumn21.HeaderText = "Samochod";
+            this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
+            // 
+            // dataGridViewTextBoxColumn22
+            // 
+            this.dataGridViewTextBoxColumn22.DataPropertyName = "W_pracy";
+            this.dataGridViewTextBoxColumn22.HeaderText = "W_pracy";
+            this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
+            // 
+            // dataGridViewTextBoxColumn23
+            // 
+            this.dataGridViewTextBoxColumn23.DataPropertyName = "Pozycja_szer";
+            this.dataGridViewTextBoxColumn23.HeaderText = "Pozycja_szer";
+            this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
+            // 
+            // dataGridViewTextBoxColumn24
+            // 
+            this.dataGridViewTextBoxColumn24.DataPropertyName = "Pozycja_dl";
+            this.dataGridViewTextBoxColumn24.HeaderText = "Pozycja_dl";
+            this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
+            // 
+            // dataGridViewTextBoxColumn25
+            // 
+            this.dataGridViewTextBoxColumn25.DataPropertyName = "Czas_zmiany";
+            this.dataGridViewTextBoxColumn25.HeaderText = "Czas_zmiany";
+            this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
+            // 
+            // status_kierowcyBindingSource
+            // 
+            this.status_kierowcyBindingSource.DataMember = "Status_kierowcy";
+            this.status_kierowcyBindingSource.DataSource = this._baza_danychDataSet;
+            // 
+            // _baza_danychDataSet
+            // 
+            this._baza_danychDataSet.DataSetName = "_baza_danychDataSet";
+            this._baza_danychDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // bindingNavigatorDriverStatus
+            // 
+            this.bindingNavigatorDriverStatus.AddNewItem = this.toolStripButton1;
+            this.bindingNavigatorDriverStatus.BindingSource = this.status_kierowcyBindingSource;
+            this.bindingNavigatorDriverStatus.CountItem = this.toolStripLabel1;
+            this.bindingNavigatorDriverStatus.DeleteItem = this.toolStripButton2;
+            this.bindingNavigatorDriverStatus.Dock = System.Windows.Forms.DockStyle.None;
+            this.bindingNavigatorDriverStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton3,
+            this.toolStripButton4,
+            this.toolStripSeparator1,
+            this.toolStripTextBox1,
+            this.toolStripLabel1,
+            this.toolStripSeparator2,
+            this.toolStripButton5,
+            this.toolStripButton6,
+            this.toolStripSeparator3,
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.status_kierowcyBindingNavigatorSaveItem});
+            this.bindingNavigatorDriverStatus.Location = new System.Drawing.Point(6, 262);
+            this.bindingNavigatorDriverStatus.MoveFirstItem = this.toolStripButton3;
+            this.bindingNavigatorDriverStatus.MoveLastItem = this.toolStripButton6;
+            this.bindingNavigatorDriverStatus.MoveNextItem = this.toolStripButton5;
+            this.bindingNavigatorDriverStatus.MovePreviousItem = this.toolStripButton4;
+            this.bindingNavigatorDriverStatus.Name = "bindingNavigatorDriverStatus";
+            this.bindingNavigatorDriverStatus.PositionItem = this.toolStripTextBox1;
+            this.bindingNavigatorDriverStatus.Size = new System.Drawing.Size(278, 25);
+            this.bindingNavigatorDriverStatus.TabIndex = 3;
+            this.bindingNavigatorDriverStatus.Text = "samochodBindingNavigator";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "of {0}";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(35, 22);
+            this.toolStripLabel1.Text = "of {0}";
+            this.toolStripLabel1.ToolTipText = "Total number of items";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton2.Text = "of {0}";
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton3.Text = "Move first";
+            // 
+            // toolStripButton4
+            // 
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton4.Text = "Move previous";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.AccessibleName = "Position";
+            this.toolStripTextBox1.AutoSize = false;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 23);
+            this.toolStripTextBox1.Text = "0";
+            this.toolStripTextBox1.ToolTipText = "Current position";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton5.Text = "Move next";
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.RightToLeftAutoMirrorImage = true;
+            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton6.Text = "Move last";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // status_kierowcyBindingNavigatorSaveItem
+            // 
+            this.status_kierowcyBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.status_kierowcyBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("status_kierowcyBindingNavigatorSaveItem.Image")));
+            this.status_kierowcyBindingNavigatorSaveItem.Name = "status_kierowcyBindingNavigatorSaveItem";
+            this.status_kierowcyBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
+            this.status_kierowcyBindingNavigatorSaveItem.Text = "Save Data";
+            this.status_kierowcyBindingNavigatorSaveItem.Click += new System.EventHandler(this.status_KierowcyBindingNavigatorSaveItem_Click);
             // 
             // samochodBindingNavigator
             // 
@@ -280,7 +483,7 @@
             this.samochodBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem1;
             this.samochodBindingNavigator.Name = "samochodBindingNavigator";
             this.samochodBindingNavigator.PositionItem = this.bindingNavigatorPositionItem1;
-            this.samochodBindingNavigator.Size = new System.Drawing.Size(309, 25);
+            this.samochodBindingNavigator.Size = new System.Drawing.Size(278, 25);
             this.samochodBindingNavigator.TabIndex = 3;
             this.samochodBindingNavigator.Text = "samochodBindingNavigator";
             // 
@@ -297,11 +500,6 @@
             // 
             this.samochodBindingSource.DataMember = "Samochod";
             this.samochodBindingSource.DataSource = this._baza_danychDataSet;
-            // 
-            // _baza_danychDataSet
-            // 
-            this._baza_danychDataSet.DataSetName = "_baza_danychDataSet";
-            this._baza_danychDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // bindingNavigatorCountItem1
             // 
@@ -612,7 +810,7 @@
             this.tabPageComissions.Location = new System.Drawing.Point(4, 22);
             this.tabPageComissions.Name = "tabPageComissions";
             this.tabPageComissions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageComissions.Size = new System.Drawing.Size(681, 665);
+            this.tabPageComissions.Size = new System.Drawing.Size(681, 774);
             this.tabPageComissions.TabIndex = 1;
             this.tabPageComissions.Text = "Zlecenia";
             this.tabPageComissions.UseVisualStyleBackColor = true;
@@ -643,7 +841,7 @@
             this.panel1.Controls.Add(czas_poczatkowyLabel);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1118, 602);
+            this.panel1.Size = new System.Drawing.Size(1118, 643);
             this.panel1.TabIndex = 19;
             // 
             // checkBoxVip
@@ -843,6 +1041,21 @@
             this.czas_poczatkowyDateTimePicker.TabIndex = 10;
             this.czas_poczatkowyDateTimePicker.Value = new System.DateTime(2015, 4, 26, 12, 40, 53, 0);
             // 
+            // tabSchedule
+            // 
+            this.tabSchedule.AutoScroll = true;
+            this.tabSchedule.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tabSchedule.Controls.Add(this.labelhover);
+            this.tabSchedule.Controls.Add(this.timeBar);
+            this.tabSchedule.Controls.Add(this.chartPanel);
+            this.tabSchedule.Controls.Add(this.itemBar);
+            this.tabSchedule.Location = new System.Drawing.Point(4, 22);
+            this.tabSchedule.Name = "tabSchedule";
+            this.tabSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSchedule.Size = new System.Drawing.Size(681, 774);
+            this.tabSchedule.TabIndex = 2;
+            this.tabSchedule.Text = "Harmonogram";
+            // 
             // gMap1
             // 
             this.gMap1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -854,7 +1067,7 @@
             this.gMap1.GrayScaleMode = false;
             this.gMap1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.gMap1.LevelsKeepInMemmory = 5;
-            this.gMap1.Location = new System.Drawing.Point(707, 34);
+            this.gMap1.Location = new System.Drawing.Point(705, 34);
             this.gMap1.MarkersEnabled = true;
             this.gMap1.MaxZoom = 2;
             this.gMap1.MinZoom = 2;
@@ -893,200 +1106,49 @@
             // 
             this.zlecenieTableAdapter.ClearBeforeFill = true;
             // 
-            // status_kierowcyBindingSource
-            // 
-            this.status_kierowcyBindingSource.DataMember = "Status_kierowcy";
-            this.status_kierowcyBindingSource.DataSource = this._baza_danychDataSet;
-            // 
             // status_kierowcyTableAdapter
             // 
             this.status_kierowcyTableAdapter.ClearBeforeFill = true;
             // 
-            // status_kierowcyDataGridView
+            // itemBar
             // 
-            this.status_kierowcyDataGridView.AutoGenerateColumns = false;
-            this.status_kierowcyDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.status_kierowcyDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.status_kierowcyDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn19,
-            this.dataGridViewTextBoxColumn20,
-            this.dataGridViewTextBoxColumn21,
-            this.dataGridViewTextBoxColumn22,
-            this.dataGridViewTextBoxColumn23,
-            this.dataGridViewTextBoxColumn24,
-            this.dataGridViewTextBoxColumn25});
-            this.status_kierowcyDataGridView.DataSource = this.status_kierowcyBindingSource;
-            this.status_kierowcyDataGridView.Location = new System.Drawing.Point(6, 290);
-            this.status_kierowcyDataGridView.Name = "status_kierowcyDataGridView";
-            this.status_kierowcyDataGridView.Size = new System.Drawing.Size(671, 220);
-            this.status_kierowcyDataGridView.TabIndex = 4;
+            this.itemBar.AutoSize = true;
+            this.itemBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.itemBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.itemBar.Location = new System.Drawing.Point(6, 62);
+            this.itemBar.Name = "itemBar";
+            this.itemBar.Size = new System.Drawing.Size(0, 0);
+            this.itemBar.TabIndex = 0;
             // 
-            // dataGridViewTextBoxColumn19
+            // chartPanel
             // 
-            this.dataGridViewTextBoxColumn19.DataPropertyName = "ID_statusu";
-            this.dataGridViewTextBoxColumn19.HeaderText = "ID_statusu";
-            this.dataGridViewTextBoxColumn19.Name = "dataGridViewTextBoxColumn19";
+            this.chartPanel.AutoSize = true;
+            this.chartPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.chartPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.chartPanel.Location = new System.Drawing.Point(92, 62);
+            this.chartPanel.Name = "chartPanel";
+            this.chartPanel.Size = new System.Drawing.Size(0, 0);
+            this.chartPanel.TabIndex = 1;
+            this.chartPanel.Click += new System.EventHandler(this.chartPanel_Click);
             // 
-            // dataGridViewTextBoxColumn20
+            // timeBar
             // 
-            this.dataGridViewTextBoxColumn20.DataPropertyName = "Kierowca";
-            this.dataGridViewTextBoxColumn20.HeaderText = "Kierowca";
-            this.dataGridViewTextBoxColumn20.Name = "dataGridViewTextBoxColumn20";
+            this.timeBar.AutoSize = true;
+            this.timeBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.timeBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.timeBar.Location = new System.Drawing.Point(92, 6);
+            this.timeBar.Name = "timeBar";
+            this.timeBar.Size = new System.Drawing.Size(0, 0);
+            this.timeBar.TabIndex = 1;
             // 
-            // dataGridViewTextBoxColumn21
+            // labelhover
             // 
-            this.dataGridViewTextBoxColumn21.DataPropertyName = "Samochod";
-            this.dataGridViewTextBoxColumn21.HeaderText = "Samochod";
-            this.dataGridViewTextBoxColumn21.Name = "dataGridViewTextBoxColumn21";
-            // 
-            // dataGridViewTextBoxColumn22
-            // 
-            this.dataGridViewTextBoxColumn22.DataPropertyName = "W_pracy";
-            this.dataGridViewTextBoxColumn22.HeaderText = "W_pracy";
-            this.dataGridViewTextBoxColumn22.Name = "dataGridViewTextBoxColumn22";
-            // 
-            // dataGridViewTextBoxColumn23
-            // 
-            this.dataGridViewTextBoxColumn23.DataPropertyName = "Pozycja_szer";
-            this.dataGridViewTextBoxColumn23.HeaderText = "Pozycja_szer";
-            this.dataGridViewTextBoxColumn23.Name = "dataGridViewTextBoxColumn23";
-            // 
-            // dataGridViewTextBoxColumn24
-            // 
-            this.dataGridViewTextBoxColumn24.DataPropertyName = "Pozycja_dl";
-            this.dataGridViewTextBoxColumn24.HeaderText = "Pozycja_dl";
-            this.dataGridViewTextBoxColumn24.Name = "dataGridViewTextBoxColumn24";
-            // 
-            // dataGridViewTextBoxColumn25
-            // 
-            this.dataGridViewTextBoxColumn25.DataPropertyName = "Czas_zmiany";
-            this.dataGridViewTextBoxColumn25.HeaderText = "Czas_zmiany";
-            this.dataGridViewTextBoxColumn25.Name = "dataGridViewTextBoxColumn25";
-            // 
-            // bindingNavigatorDriverStatus
-            // 
-            this.bindingNavigatorDriverStatus.AddNewItem = this.toolStripButton1;
-            this.bindingNavigatorDriverStatus.BindingSource = this.status_kierowcyBindingSource;
-            this.bindingNavigatorDriverStatus.CountItem = this.toolStripLabel1;
-            this.bindingNavigatorDriverStatus.DeleteItem = this.toolStripButton2;
-            this.bindingNavigatorDriverStatus.Dock = System.Windows.Forms.DockStyle.None;
-            this.bindingNavigatorDriverStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton3,
-            this.toolStripButton4,
-            this.toolStripSeparator1,
-            this.toolStripTextBox1,
-            this.toolStripLabel1,
-            this.toolStripSeparator2,
-            this.toolStripButton5,
-            this.toolStripButton6,
-            this.toolStripSeparator3,
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.status_kierowcyBindingNavigatorSaveItem});
-            this.bindingNavigatorDriverStatus.Location = new System.Drawing.Point(6, 262);
-            this.bindingNavigatorDriverStatus.MoveFirstItem = this.toolStripButton3;
-            this.bindingNavigatorDriverStatus.MoveLastItem = this.toolStripButton6;
-            this.bindingNavigatorDriverStatus.MoveNextItem = this.toolStripButton5;
-            this.bindingNavigatorDriverStatus.MovePreviousItem = this.toolStripButton4;
-            this.bindingNavigatorDriverStatus.Name = "bindingNavigatorDriverStatus";
-            this.bindingNavigatorDriverStatus.PositionItem = this.toolStripTextBox1;
-            this.bindingNavigatorDriverStatus.Size = new System.Drawing.Size(278, 25);
-            this.bindingNavigatorDriverStatus.TabIndex = 3;
-            this.bindingNavigatorDriverStatus.Text = "samochodBindingNavigator";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "of {0}";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(35, 22);
-            this.toolStripLabel1.Text = "of {0}";
-            this.toolStripLabel1.ToolTipText = "Total number of items";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "of {0}";
-            // 
-            // toolStripButton3
-            // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "Move first";
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "Move previous";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.AccessibleName = "Position";
-            this.toolStripTextBox1.AutoSize = false;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(50, 23);
-            this.toolStripTextBox1.Text = "0";
-            this.toolStripTextBox1.ToolTipText = "Current position";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripButton5
-            // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton5.Text = "Move next";
-            // 
-            // toolStripButton6
-            // 
-            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton6.Text = "Move last";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // status_kierowcyBindingNavigatorSaveItem
-            // 
-            this.status_kierowcyBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.status_kierowcyBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("status_kierowcyBindingNavigatorSaveItem.Image")));
-            this.status_kierowcyBindingNavigatorSaveItem.Name = "status_kierowcyBindingNavigatorSaveItem";
-            this.status_kierowcyBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
-            this.status_kierowcyBindingNavigatorSaveItem.Text = "Save Data";
-            this.status_kierowcyBindingNavigatorSaveItem.Click += new System.EventHandler(this.status_KierowcyBindingNavigatorSaveItem_Click);
+            this.labelhover.AutoSize = true;
+            this.labelhover.Location = new System.Drawing.Point(89, 455);
+            this.labelhover.Name = "labelhover";
+            this.labelhover.Size = new System.Drawing.Size(35, 13);
+            this.labelhover.TabIndex = 3;
+            this.labelhover.Text = "label2";
             // 
             // Form1
             // 
@@ -1101,11 +1163,16 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPageDrivers.ResumeLayout(false);
             this.tabPageDrivers.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._baza_danychDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorDriverStatus)).EndInit();
+            this.bindingNavigatorDriverStatus.ResumeLayout(false);
+            this.bindingNavigatorDriverStatus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingNavigator)).EndInit();
             this.samochodBindingNavigator.ResumeLayout(false);
             this.samochodBindingNavigator.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.samochodBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._baza_danychDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.samochodDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kierowcaBindingNavigator)).EndInit();
             this.kierowcaBindingNavigator.ResumeLayout(false);
@@ -1117,11 +1184,8 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zlecenieDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.zlecenieBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.status_kierowcyDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingNavigatorDriverStatus)).EndInit();
-            this.bindingNavigatorDriverStatus.ResumeLayout(false);
-            this.bindingNavigatorDriverStatus.PerformLayout();
+            this.tabSchedule.ResumeLayout(false);
+            this.tabSchedule.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1223,6 +1287,11 @@
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton status_kierowcyBindingNavigatorSaveItem;
+        private System.Windows.Forms.TabPage tabSchedule;
+        private System.Windows.Forms.Panel chartPanel;
+        private System.Windows.Forms.FlowLayoutPanel itemBar;
+        private System.Windows.Forms.Panel timeBar;
+        private System.Windows.Forms.Label labelhover;
     }
 }
 

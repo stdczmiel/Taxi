@@ -19,19 +19,24 @@ namespace Taksówki
 {
     public partial class Form1 : Form
     {
-        readonly GMapOverlay top = new GMapOverlay();
-        internal readonly GMapOverlay objects = new GMapOverlay("objects");
-        internal readonly GMapOverlay routes = new GMapOverlay("routes");
 
+        string baseTime;
+        DateTime startTime;
+        private List<ChartEvent> events;
+        
         private taxiEntities dbTaxiContext = new taxiEntities();
-
-        // marker
-        GMapMarker currentMarker;
+        
         int currentZlecenieId = 0;
 
         bool isMouseDown = false;
         bool markerMoved = false;
 
+        #region gMap
+        readonly GMapOverlay top = new GMapOverlay();
+        internal readonly GMapOverlay objects = new GMapOverlay("objects");
+        internal readonly GMapOverlay routes = new GMapOverlay("routes");
+
+        GMapMarker currentMarker;
         public Form1()
         {
             InitializeComponent();
@@ -194,7 +199,7 @@ namespace Taksówki
                 top.Markers.Add(currentMarker);
             }
         }
-
+        #endregion
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -209,8 +214,10 @@ namespace Taksówki
 
             zlecenieDataGridView_CellClick(zlecenieDataGridView, new DataGridViewCellEventArgs(0, 0));
             addDriversToMap();
+            Gantt();
         }
 
+        #region formEvents
         private void kierowcaBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
             this.Validate();
@@ -313,22 +320,6 @@ namespace Taksówki
             }
         }
 
-        private DateTime ConvertToDateTime(string strDateTime)
-        {
-            DateTime dtFinaldate; 
-            string sDateTime;
-            try { dtFinaldate = Convert.ToDateTime(strDateTime); }
-            catch (Exception e)
-            {
-                string[] sDate = strDateTime.Split(' ');
-                string[] date = sDate[0].Split(':');
-                string[] time = sDate[1].Split(':');
-                sDateTime = date[2] + '-' + date[1] + '-' + date[0] + " " + time[0] + ":" + time[1] + ":" + time[2];
-                dtFinaldate = Convert.ToDateTime(sDateTime);
-            }
-            return dtFinaldate;
-        }
-
         private void buttonNewComission_Click(object sender, EventArgs e)
         {
             clearZlecenieForm();
@@ -362,6 +353,206 @@ namespace Taksówki
                 default:
                     break;
             }
+        }
+        #endregion
+
+        private DateTime ConvertToDateTime(string strDateTime)
+        {
+            DateTime dtFinaldate;
+            string sDateTime;
+            try { dtFinaldate = Convert.ToDateTime(strDateTime); }
+            catch (Exception e)
+            {
+                string[] sDate = strDateTime.Split(' ');
+                string[] date = sDate[0].Split(':');
+                string[] time = sDate[1].Split(':');
+                sDateTime = date[2] + '-' + date[1] + '-' + date[0] + " " + time[0] + ":" + time[1] + ":" + time[2];
+                dtFinaldate = Convert.ToDateTime(sDateTime);
+            }
+            return dtFinaldate;
+        }
+
+        #region query
+
+        private void getSchedule()
+        {
+
+            var schedule = from commissions in dbTaxiContext.Zlecenie
+                           from commissions_drivers in dbTaxiContext.Kierowca_Zlecenie
+                           from driver in dbTaxiContext.Kierowca
+                           where commissions.ID_zlecenie == commissions_drivers.Zlecenie
+                           where driver.ID_kierowcy == commissions_drivers.Kierowca
+                           where commissions_drivers.Poczatek == null
+                           where commissions.Czas_poczatkowy >= DateTime.Now
+                           select new { commissions.ID_zlecenie, };
+
+        }
+        #endregion
+
+        public void Gantt(string baseTime = "hours", List<ChartEvent> e = null)
+        {
+            this.baseTime = baseTime;
+            events = new List<ChartEvent>();
+            startTime = DateTime.Now;
+            var commisions = from com in dbTaxiContext.Zlecenie
+                             where com.Czas_poczatkowy > DateTime.Now
+                             select com;
+            foreach(var com in commisions)
+            {
+                
+                ChartEvent chartEvent = new ChartEvent(com.Czas_poczatkowy, com.Przyblizony_czas_drogi, com.Mozliwe_spoznienie, com.ID_zlecenie.ToString());
+                events.Add(chartEvent);
+            }
+            
+            drawItemsOnChart();
+        }
+
+        private void drawTimeBar()
+        {
+            ChartEvent maxDateEvent = events.ElementAt(findCmax());
+            DateTime maxDate = maxDateEvent.EventStartTime.AddMinutes(maxDateEvent.PossibleDelay + maxDateEvent.EventLength);
+            int hours = (int)Math.Ceiling(maxDate.AddHours(1).Subtract(startTime).TotalHours);
+            
+            Label label0 = new Label();
+            label0.Text = startTime.Day.ToString() + "-" + startTime.Month.ToString() + "-" + startTime.Year.ToString();
+            label0.TextAlign = ContentAlignment.MiddleCenter;
+            label0.BorderStyle = BorderStyle.FixedSingle;
+            label0.Width = (24-startTime.Hour)*60;
+            label0.Height = 25;
+            label0.Padding = new Padding(0);
+            label0.Margin = new Padding(0);
+            Point position0 = new Point(0, 1);
+            label0.Location = position0;
+            timeBar.Controls.Add(label0);
+
+            for (int i = 0; i < hours; i++)
+            {
+                Label label1 = new Label();
+                label1.Text = startTime.AddHours(i).Hour.ToString() + ":00";
+                label1.TextAlign = ContentAlignment.MiddleLeft;
+                label1.BorderStyle = BorderStyle.FixedSingle;
+                label1.Width = 60;
+                label1.Height = 25;
+                label1.Padding = new Padding(0);
+                label1.Margin = new Padding(0);
+                Point position1 = new Point(60*i, 25);
+                label1.Location = position1;
+                timeBar.Controls.Add(label1);
+            }
+        }
+
+        private void drawItemBar()
+        {
+            itemBar.FlowDirection = FlowDirection.TopDown;
+
+            foreach (ChartEvent ev in events)
+            {
+                Label label1 = new Label();
+                label1.Text = ev.EventCaption;
+                label1.TextAlign = ContentAlignment.MiddleLeft;
+                label1.BorderStyle = BorderStyle.FixedSingle;
+                label1.Width = 80;
+                label1.Height = 50;
+                label1.Padding = new Padding(0);
+                label1.Margin = new Padding(0);
+                itemBar.Controls.Add(label1);
+            }
+        }
+
+        private void drawItemsOnChart()
+        {
+            drawTimeBar();
+            drawItemBar();
+            chartPanel.Width = timeBar.Width;
+            chartPanel.Height = itemBar.Height;
+            int currPos = 0;
+
+            int i = 0;
+            foreach (ChartEvent ev in events)
+            {
+                Label orangeLabel = new Label();
+                orangeLabel.BackColor = Color.Orange;
+                orangeLabel.Height = 50;
+                orangeLabel.Width = ev.PossibleDelay;
+                orangeLabel.Padding = new Padding(0);
+                orangeLabel.Margin = new Padding(0);
+                Point position1 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) - 2 + startTime.Minute, 50 * i);
+                orangeLabel.Location = position1;
+
+                Label redLabel = new Label();
+                redLabel.BackColor = Color.Red;
+                redLabel.Height = 50;
+                redLabel.Width = ev.EventLength;
+                redLabel.Padding = new Padding(0);
+                redLabel.Margin = new Padding(0);
+                Point position2 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute + ev.PossibleDelay-2, 50 * i);
+                redLabel.Location = position2;
+                ToolTip toolTip = new ToolTip();
+                
+                chartPanel.Controls.Add(redLabel);
+                toolTip.SetToolTip(redLabel, redLabel.Location.ToString());
+                chartPanel.Controls.Add(orangeLabel);
+                i++;
+            }
+            while (currPos <= timeBar.Width)
+            {
+                Label label1 = new Label();
+                label1.BorderStyle = BorderStyle.FixedSingle;
+                label1.Width = 60;
+                label1.Height = itemBar.Height;
+                label1.Padding = new Padding(0);
+                label1.Margin = new Padding(0);
+                label1.SendToBack();
+                label1.Name = "vertical" + currPos;
+                
+
+                Point position1 = new Point(currPos, 0);
+                label1.Location = position1;
+                chartPanel.Controls.Add(label1);
+                label1.Text = label1.Location.ToString();
+                chartPanel.Controls.Find("vertical" + currPos, false).First().SendToBack();
+                currPos += 60;
+
+            }
+        }
+
+        int findCmax()
+        {
+            int maxIndex = 0, i = 0;
+            DateTime maxDate = DateTime.Now;
+            DateTime currDate;
+            foreach (ChartEvent ev in events)
+            {
+                currDate = ev.EventStartTime.AddMinutes(ev.PossibleDelay + ev.EventLength);
+                if ( currDate > maxDate)
+                {
+                    maxIndex = i;
+                    maxDate = currDate;
+                }
+                i++;
+            }
+            return maxIndex;
+        }
+
+        private void chartPanel_Click(object sender, EventArgs e)
+        {
+            labelhover.Text = (MousePosition.X - chartPanel.Location.X).ToString() +" " + (MousePosition.Y - chartPanel.Location.Y).ToString();
+        }
+
+    }
+    public partial class ChartEvent
+    {
+        public DateTime EventStartTime { get; private set; }
+        public int PossibleDelay { get; private set; }
+        public int EventLength { get; private set; }
+        public string EventCaption { get; private set; }
+
+        public ChartEvent(DateTime start, int length, int delay = 0, string caption = "")
+        {
+            EventStartTime = start;
+            EventLength = length;
+            PossibleDelay = delay;
+            EventCaption = caption;
         }
     }
            
