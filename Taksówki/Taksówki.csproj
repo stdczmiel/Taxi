@@ -94,6 +94,7 @@
     <Compile Include="Status_kierowcy.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Tabu.cs" />
     <Compile Include="TaxiModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

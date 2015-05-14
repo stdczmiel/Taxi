@@ -19,7 +19,7 @@ namespace Taksówki
 {
     public partial class Form1 : Form
     {
-
+        Tabu TS;
         string baseTime;
         DateTime startTime;
         private List<ChartEvent> events;
@@ -40,7 +40,7 @@ namespace Taksówki
         public Form1()
         {
             InitializeComponent();
-
+            TS = new Tabu(dbTaxiContext);
             try
             {
                 System.Net.IPHostEntry e =
@@ -284,10 +284,10 @@ namespace Taksówki
             }
             else
             {
-                
+                Zlecenie comission;
                 if (currentZlecenieId < 0)
                 {        
-                    Zlecenie comission = new Zlecenie();
+                    comission = new Zlecenie();
                     comission.Skad_dl = decimal.Parse(skad_dlTextBox.Text);
                     comission.Skad_szer = decimal.Parse(skad_szerTextBox.Text);
                     comission.Dokad_dl = decimal.Parse(dokad_dlTextBox.Text);
@@ -303,7 +303,7 @@ namespace Taksówki
                 else
                 {
                     var zlecenieQuery = from zl in dbTaxiContext.Zlecenie where zl.ID_zlecenie == currentZlecenieId select zl;
-                    Zlecenie comission = zlecenieQuery.Single();
+                    comission = zlecenieQuery.Single();
                     comission.Skad_dl = decimal.Parse(skad_dlTextBox.Text);
                     comission.Skad_szer = decimal.Parse(skad_szerTextBox.Text);
                     comission.Dokad_dl = decimal.Parse(dokad_dlTextBox.Text);
@@ -317,6 +317,7 @@ namespace Taksówki
                 }
                 this.zlecenieTableAdapter.Fill(this._baza_danychDataSet.Zlecenie);
                 zlecenieDataGridView.Update();
+                TS.UlozHarmonogram();
             }
         }
 
@@ -375,20 +376,21 @@ namespace Taksówki
 
         #region query
 
-        private void getSchedule()
-        {
+        //private void getSchedule()
+        //{
 
-            var schedule = from commissions in dbTaxiContext.Zlecenie
-                           from commissions_drivers in dbTaxiContext.Kierowca_Zlecenie
-                           from driver in dbTaxiContext.Kierowca
-                           where commissions.ID_zlecenie == commissions_drivers.Zlecenie
-                           where driver.ID_kierowcy == commissions_drivers.Kierowca
-                           where commissions_drivers.Poczatek == null
-                           where commissions.Czas_poczatkowy >= DateTime.Now
-                           select new { commissions.ID_zlecenie, };
+        //    var schedule = from commissions in dbTaxiContext.Zlecenie
+        //                   from commissions_drivers in dbTaxiContext.Kierowca_Zlecenie
+        //                   from driver in dbTaxiContext.Kierowca
+        //                   where commissions.ID_zlecenie == commissions_drivers.Zlecenie
+        //                   where driver.ID_kierowcy == commissions_drivers.Kierowca
+        //                   where commissions_drivers.Poczatek == null
+        //                   where commissions.Czas_poczatkowy >= DateTime.Now
+        //                   select new { commissions.ID_zlecenie, };
 
-        }
-        #endregion
+        //}
+        //#endregion
+
         #region gantt
         public void Gantt(string baseTime = "hours", List<ChartEvent> e = null)
         {

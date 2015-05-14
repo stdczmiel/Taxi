@@ -127,16 +127,16 @@
             this.mozliwe_spoznienieTextBox = new System.Windows.Forms.TextBox();
             this.czas_poczatkowyDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.tabSchedule = new System.Windows.Forms.TabPage();
+            this.labelhover = new System.Windows.Forms.Label();
+            this.timeBar = new System.Windows.Forms.Panel();
+            this.chartPanel = new System.Windows.Forms.Panel();
+            this.itemBar = new System.Windows.Forms.FlowLayoutPanel();
             this.gMap1 = new GMap.NET.WindowsForms.GMapControl();
             this.kierowcaTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.KierowcaTableAdapter();
             this.tableAdapterManager = new Taksówki._baza_danychDataSetTableAdapters.TableAdapterManager();
             this.samochodTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.SamochodTableAdapter();
             this.zlecenieTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.ZlecenieTableAdapter();
             this.status_kierowcyTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.Status_kierowcyTableAdapter();
-            this.itemBar = new System.Windows.Forms.FlowLayoutPanel();
-            this.chartPanel = new System.Windows.Forms.Panel();
-            this.timeBar = new System.Windows.Forms.Panel();
-            this.labelhover = new System.Windows.Forms.Label();
             czas_poczatkowyLabel = new System.Windows.Forms.Label();
             dokad_dlLabel = new System.Windows.Forms.Label();
             mozliwe_spoznienieLabel = new System.Windows.Forms.Label();
@@ -239,7 +239,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(689, 800);
+            this.tabControl1.Size = new System.Drawing.Size(689, 726);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -255,7 +255,7 @@
             this.tabPageDrivers.Location = new System.Drawing.Point(4, 22);
             this.tabPageDrivers.Name = "tabPageDrivers";
             this.tabPageDrivers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageDrivers.Size = new System.Drawing.Size(681, 774);
+            this.tabPageDrivers.Size = new System.Drawing.Size(681, 700);
             this.tabPageDrivers.TabIndex = 0;
             this.tabPageDrivers.Text = "Kierowcy";
             this.tabPageDrivers.UseVisualStyleBackColor = true;
@@ -810,7 +810,7 @@
             this.tabPageComissions.Location = new System.Drawing.Point(4, 22);
             this.tabPageComissions.Name = "tabPageComissions";
             this.tabPageComissions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageComissions.Size = new System.Drawing.Size(681, 774);
+            this.tabPageComissions.Size = new System.Drawing.Size(681, 700);
             this.tabPageComissions.TabIndex = 1;
             this.tabPageComissions.Text = "Zlecenia";
             this.tabPageComissions.UseVisualStyleBackColor = true;
@@ -841,7 +841,7 @@
             this.panel1.Controls.Add(czas_poczatkowyLabel);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1118, 643);
+            this.panel1.Size = new System.Drawing.Size(1118, 552);
             this.panel1.TabIndex = 19;
             // 
             // checkBoxVip
@@ -1052,9 +1052,49 @@
             this.tabSchedule.Location = new System.Drawing.Point(4, 22);
             this.tabSchedule.Name = "tabSchedule";
             this.tabSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSchedule.Size = new System.Drawing.Size(681, 774);
+            this.tabSchedule.Size = new System.Drawing.Size(681, 700);
             this.tabSchedule.TabIndex = 2;
             this.tabSchedule.Text = "Harmonogram";
+            // 
+            // labelhover
+            // 
+            this.labelhover.AutoSize = true;
+            this.labelhover.Location = new System.Drawing.Point(89, 455);
+            this.labelhover.Name = "labelhover";
+            this.labelhover.Size = new System.Drawing.Size(35, 13);
+            this.labelhover.TabIndex = 3;
+            this.labelhover.Text = "label2";
+            // 
+            // timeBar
+            // 
+            this.timeBar.AutoSize = true;
+            this.timeBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.timeBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.timeBar.Location = new System.Drawing.Point(92, 6);
+            this.timeBar.Name = "timeBar";
+            this.timeBar.Size = new System.Drawing.Size(0, 0);
+            this.timeBar.TabIndex = 1;
+            // 
+            // chartPanel
+            // 
+            this.chartPanel.AutoSize = true;
+            this.chartPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.chartPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.chartPanel.Location = new System.Drawing.Point(92, 62);
+            this.chartPanel.Name = "chartPanel";
+            this.chartPanel.Size = new System.Drawing.Size(0, 0);
+            this.chartPanel.TabIndex = 1;
+            this.chartPanel.Click += new System.EventHandler(this.chartPanel_Click);
+            // 
+            // itemBar
+            // 
+            this.itemBar.AutoSize = true;
+            this.itemBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.itemBar.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.itemBar.Location = new System.Drawing.Point(6, 62);
+            this.itemBar.Name = "itemBar";
+            this.itemBar.Size = new System.Drawing.Size(0, 0);
+            this.itemBar.TabIndex = 0;
             // 
             // gMap1
             // 
@@ -1080,7 +1120,7 @@
             this.gMap1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.gMap1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMap1.ShowTileGridLines = false;
-            this.gMap1.Size = new System.Drawing.Size(451, 778);
+            this.gMap1.Size = new System.Drawing.Size(451, 704);
             this.gMap1.TabIndex = 0;
             this.gMap1.Zoom = 0D;
             // 
@@ -1110,51 +1150,11 @@
             // 
             this.status_kierowcyTableAdapter.ClearBeforeFill = true;
             // 
-            // itemBar
-            // 
-            this.itemBar.AutoSize = true;
-            this.itemBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.itemBar.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.itemBar.Location = new System.Drawing.Point(6, 62);
-            this.itemBar.Name = "itemBar";
-            this.itemBar.Size = new System.Drawing.Size(0, 0);
-            this.itemBar.TabIndex = 0;
-            // 
-            // chartPanel
-            // 
-            this.chartPanel.AutoSize = true;
-            this.chartPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.chartPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.chartPanel.Location = new System.Drawing.Point(92, 62);
-            this.chartPanel.Name = "chartPanel";
-            this.chartPanel.Size = new System.Drawing.Size(0, 0);
-            this.chartPanel.TabIndex = 1;
-            this.chartPanel.Click += new System.EventHandler(this.chartPanel_Click);
-            // 
-            // timeBar
-            // 
-            this.timeBar.AutoSize = true;
-            this.timeBar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.timeBar.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.timeBar.Location = new System.Drawing.Point(92, 6);
-            this.timeBar.Name = "timeBar";
-            this.timeBar.Size = new System.Drawing.Size(0, 0);
-            this.timeBar.TabIndex = 1;
-            // 
-            // labelhover
-            // 
-            this.labelhover.AutoSize = true;
-            this.labelhover.Location = new System.Drawing.Point(89, 455);
-            this.labelhover.Name = "labelhover";
-            this.labelhover.Size = new System.Drawing.Size(35, 13);
-            this.labelhover.TabIndex = 3;
-            this.labelhover.Text = "label2";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1170, 824);
+            this.ClientSize = new System.Drawing.Size(1170, 750);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.gMap1);
             this.Name = "Form1";

@@ -18,6 +18,7 @@ namespace Taksówki
         public int Zlecenie { get; set; }
         public Nullable<System.DateTime> Poczatek { get; set; }
         public Nullable<System.DateTime> Koniec { get; set; }
+        public int Czas_dojazdu { get; set; }
     
         public virtual Kierowca Kierowca1 { get; set; }
         public virtual Zlecenie Zlecenie1 { get; set; }
