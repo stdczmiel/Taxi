@@ -209,11 +209,10 @@ FROM `Kierowca-Zlecenie` AS `Kierowca-Zlecenie`</DefiningQuery>
           </Key>
           <Property Name="Kierowca" Type="Int32" Nullable="false" />
           <Property Name="Zlecenie" Type="Int32" Nullable="false" />
-          <Property Name="Poczatek" Type="DateTime" />
-          <Property Name="Koniec" Type="DateTime" />
+          <Property Name="Poczatek" Type="DateTime" Nullable="false" />
+          <Property Name="Koniec" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Kierowca1" Relationship="Self.fk_Kierowca" FromRole="Kierowca_Zlecenie" ToRole="Kierowca" />
           <NavigationProperty Name="Zlecenie1" Relationship="Self.fk_Zlecenie" FromRole="Kierowca_Zlecenie" ToRole="Zlecenie" />
-          <Property Name="Czas_dojazdu" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="fk_Kierowca">
           <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">

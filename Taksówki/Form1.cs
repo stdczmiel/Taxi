@@ -389,7 +389,7 @@ namespace Taksówki
         //                   select new { commissions.ID_zlecenie, };
 
         //}
-        //#endregion
+        #endregion
 
         #region gantt
         public void Gantt(string baseTime = "hours", List<ChartEvent> e = null)
