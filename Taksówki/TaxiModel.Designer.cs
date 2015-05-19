@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'c:\users\matt\documents\visual studio 2013\Projects\Taksówki\Taksówki\TaxiModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Andrzej\Source\Repos\Taxi\Taksówki\TaxiModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

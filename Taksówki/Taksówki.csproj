@@ -94,6 +94,7 @@
     <Compile Include="Status_kierowcy.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Tabu.cs" />
     <Compile Include="TaxiModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -108,6 +109,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TaxiModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="TaxiModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Zlecenie.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
@@ -155,7 +161,7 @@
     <None Include="TaxiModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TaxiModel.edmx</DependentUpon>
-      <LastGenOutput>TaxiModel.cs</LastGenOutput>
+      <LastGenOutput>TaxiModel1.cs</LastGenOutput>
     </None>
     <None Include="_baza_danychDataSet.xsc">
       <DependentUpon>_baza_danychDataSet.xsd</DependentUpon>

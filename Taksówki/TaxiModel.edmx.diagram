@@ -6,10 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="7a04084aaba2453394e7310cb5bd19ce" Name="Diagram1">
         <EntityTypeShape EntityType="Model.Kierowca" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Samochod" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Samochod" Width="1.5" PointX="0.625" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Status_kierowcy" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Zlecenie" Width="1.5" PointX="3.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Kierowca_Zlecenie" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Zlecenie" Width="2.5" PointX="4.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Kierowca_Zlecenie" Width="2.375" PointX="6" PointY="2.875" IsExpanded="true" />
         <AssociationConnector Association="Model.fk_Kierowca" ManuallyRouted="false" />
         <AssociationConnector Association="Model.fk_Kierowca_status" ManuallyRouted="false" />
         <AssociationConnector Association="Model.fk_Samochod_1" ManuallyRouted="false" />
