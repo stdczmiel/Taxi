@@ -12,15 +12,13 @@ namespace Taksówki
     using System;
     using System.Collections.Generic;
     
-    public partial class Kierowca_Zlecenie
+    public partial class listwa_magazyn
     {
-        public int Kierowca { get; set; }
-        public int Zlecenie { get; set; }
-        public System.DateTime Poczatek { get; set; }
-        public System.DateTime Koniec { get; set; }
-        public Nullable<int> Czas_dojazdu { get; set; }
+        public int idListwa { get; set; }
+        public Nullable<int> idMagazyn { get; set; }
+        public decimal ileMetrow { get; set; }
     
-        public virtual Kierowca Kierowca1 { get; set; }
-        public virtual Zlecenie Zlecenie1 { get; set; }
+        public virtual listwy listwy { get; set; }
+        public virtual magazyn magazyn { get; set; }
     }
 }

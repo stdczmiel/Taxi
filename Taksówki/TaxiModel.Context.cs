@@ -30,5 +30,11 @@ namespace Taksówki
         public virtual DbSet<Status_kierowcy> Status_kierowcy { get; set; }
         public virtual DbSet<Zlecenie> Zlecenie { get; set; }
         public virtual DbSet<Kierowca_Zlecenie> Kierowca_Zlecenie { get; set; }
+        public virtual DbSet<listwy> listwy { get; set; }
+        public virtual DbSet<magazyn> magazyn { get; set; }
+        public virtual DbSet<ustawienia> ustawienia { get; set; }
+        public virtual DbSet<uzytkownicy> uzytkownicy { get; set; }
+        public virtual DbSet<zdarzenia> zdarzenia { get; set; }
+        public virtual DbSet<listwa_magazyn> listwa_magazyn { get; set; }
     }
 }
