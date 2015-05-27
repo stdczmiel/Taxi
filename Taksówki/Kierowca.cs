@@ -16,8 +16,8 @@ namespace Taksówki
     {
         public Kierowca()
         {
-            this.Kierowca_Zlecenie = new HashSet<Kierowca_Zlecenie>();
             this.Status_kierowcy = new HashSet<Status_kierowcy>();
+            this.KierowcaZlecenie = new HashSet<KierowcaZlecenie>();
         }
     
         public int ID_kierowcy { get; set; }
@@ -25,7 +25,7 @@ namespace Taksówki
         public string Nazwisko { get; set; }
         public string Nr_telefonu { get; set; }
     
-        public virtual ICollection<Kierowca_Zlecenie> Kierowca_Zlecenie { get; set; }
         public virtual ICollection<Status_kierowcy> Status_kierowcy { get; set; }
+        public virtual ICollection<KierowcaZlecenie> KierowcaZlecenie { get; set; }
     }
 }

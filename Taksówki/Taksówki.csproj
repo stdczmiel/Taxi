@@ -83,7 +83,7 @@
     <Compile Include="Kierowca.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Kierowca_Zlecenie.cs">
+    <Compile Include="KierowcaZlecenie.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="listwa_magazyn.cs">

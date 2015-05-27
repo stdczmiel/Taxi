@@ -14,13 +14,11 @@
           <Property Name="Nazwisko" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="Nr_telefonu" Type="char" MaxLength="9" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'def.baza-danych.Kierowca-Zlecenie' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Kierowca-Zlecenie">
+        <EntityType Name="KierowcaZlecenie">
           <Key>
-            <PropertyRef Name="Kierowca" />
-            <PropertyRef Name="Zlecenie" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Kierowca" Type="int" Nullable="false" />
           <Property Name="Zlecenie" Type="int" Nullable="false" />
           <Property Name="Poczatek" Type="timestamp" Precision="0" />
@@ -131,12 +129,12 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
           <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Kierowca-Zlecenie" Type="Self.Kierowca-Zlecenie" Multiplicity="*" />
+          <End Role="KierowcaZlecenie" Type="Self.KierowcaZlecenie" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Kierowca">
               <PropertyRef Name="ID_kierowcy" />
             </Principal>
-            <Dependent Role="Kierowca-Zlecenie">
+            <Dependent Role="KierowcaZlecenie">
               <PropertyRef Name="Kierowca" />
             </Dependent>
           </ReferentialConstraint>
@@ -233,18 +231,19 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
         </Association>
         <Association Name="fk_Zlecenie">
           <End Role="Zlecenie" Type="Self.Zlecenie" Multiplicity="1" />
-          <End Role="Kierowca-Zlecenie" Type="Self.Kierowca-Zlecenie" Multiplicity="*" />
+          <End Role="KierowcaZlecenie" Type="Self.KierowcaZlecenie" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Zlecenie">
               <PropertyRef Name="ID_zlecenie" />
             </Principal>
-            <Dependent Role="Kierowca-Zlecenie">
+            <Dependent Role="KierowcaZlecenie">
               <PropertyRef Name="Zlecenie" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Kierowca" EntityType="Self.Kierowca" Schema="baza-danych" store:Type="Tables" />
+          <EntitySet Name="KierowcaZlecenie" EntityType="Self.KierowcaZlecenie" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="listwy" EntityType="Self.listwy" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="magazyn" EntityType="Self.magazyn" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="Samochod" EntityType="Self.Samochod" Schema="baza-danych" store:Type="Tables" />
@@ -253,15 +252,6 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
           <EntitySet Name="uzytkownicy" EntityType="Self.uzytkownicy" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="zdarzenia" EntityType="Self.zdarzenia" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="Zlecenie" EntityType="Self.Zlecenie" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="Kierowca-Zlecenie" EntityType="Self.Kierowca-Zlecenie" store:Type="Tables" store:Schema="baza-danych">
-            <DefiningQuery>SELECT
-`Kierowca-Zlecenie`.`Kierowca`, 
-`Kierowca-Zlecenie`.`Zlecenie`, 
-`Kierowca-Zlecenie`.`Poczatek`, 
-`Kierowca-Zlecenie`.`Koniec`, 
-`Kierowca-Zlecenie`.`Czas_dojazdu`
-FROM `Kierowca-Zlecenie` AS `Kierowca-Zlecenie`</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="listwa-magazyn" EntityType="Self.listwa-magazyn" store:Type="Tables" store:Schema="baza-danych">
             <DefiningQuery>SELECT
 `listwa-magazyn`.`idListwa`, 
@@ -271,7 +261,7 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="fk_Kierowca" Association="Self.fk_Kierowca">
             <End Role="Kierowca" EntitySet="Kierowca" />
-            <End Role="Kierowca-Zlecenie" EntitySet="Kierowca-Zlecenie" />
+            <End Role="KierowcaZlecenie" EntitySet="KierowcaZlecenie" />
           </AssociationSet>
           <AssociationSet Name="fk_Kierowca_status" Association="Self.fk_Kierowca_status">
             <End Role="Kierowca" EntitySet="Kierowca" />
@@ -303,7 +293,7 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
           </AssociationSet>
           <AssociationSet Name="fk_Zlecenie" Association="Self.fk_Zlecenie">
             <End Role="Zlecenie" EntitySet="Zlecenie" />
-            <End Role="Kierowca-Zlecenie" EntitySet="Kierowca-Zlecenie" />
+            <End Role="KierowcaZlecenie" EntitySet="KierowcaZlecenie" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -318,8 +308,8 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
           <Property Name="Imie" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nazwisko" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nr_telefonu" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Kierowca_Zlecenie" Relationship="Self.fk_Kierowca" FromRole="Kierowca" ToRole="Kierowca_Zlecenie" />
           <NavigationProperty Name="Status_kierowcy" Relationship="Self.fk_Kierowca_status" FromRole="Kierowca" ToRole="Status_kierowcy" />
+          <NavigationProperty Name="KierowcaZlecenie" Relationship="Model.fk_Kierowca" FromRole="Kierowca" ToRole="KierowcaZlecenie" />
         </EntityType>
         <EntityType Name="Samochod">
           <Key>
@@ -360,35 +350,8 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
           <Property Name="Mozliwe_spoznienie" Type="Int32" Nullable="false" />
           <Property Name="Przyblizony_czas_drogi" Type="Int32" Nullable="false" />
           <Property Name="VIP" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Kierowca_Zlecenie" Relationship="Self.fk_Zlecenie" FromRole="Zlecenie" ToRole="Kierowca_Zlecenie" />
+          <NavigationProperty Name="KierowcaZlecenie" Relationship="Model.fk_Zlecenie" FromRole="Zlecenie" ToRole="KierowcaZlecenie" />
         </EntityType>
-        <EntityType Name="Kierowca_Zlecenie">
-          <Key>
-            <PropertyRef Name="Kierowca" />
-            <PropertyRef Name="Zlecenie" />
-          </Key>
-          <Property Name="Kierowca" Type="Int32" Nullable="false" />
-          <Property Name="Zlecenie" Type="Int32" Nullable="false" />
-          <Property Name="Poczatek" Type="DateTime" Nullable="false" />
-          <Property Name="Koniec" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="Kierowca1" Relationship="Self.fk_Kierowca" FromRole="Kierowca_Zlecenie" ToRole="Kierowca" />
-          <NavigationProperty Name="Zlecenie1" Relationship="Self.fk_Zlecenie" FromRole="Kierowca_Zlecenie" ToRole="Zlecenie" />
-          <Property Name="Czas_dojazdu" Type="Int32" />
-        </EntityType>
-        <Association Name="fk_Kierowca">
-          <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Kierowca_Zlecenie" Type="Self.Kierowca_Zlecenie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Kierowca">
-              <PropertyRef Name="ID_kierowcy" />
-            </Principal>
-            <Dependent Role="Kierowca_Zlecenie">
-              <PropertyRef Name="Kierowca" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Kierowca_status">
           <End Role="Kierowca" Type="Self.Kierowca" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -415,28 +378,11 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Zlecenie">
-          <End Role="Zlecenie" Type="Self.Zlecenie" Multiplicity="1" />
-          <End Role="Kierowca_Zlecenie" Type="Self.Kierowca_Zlecenie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Zlecenie">
-              <PropertyRef Name="ID_zlecenie" />
-            </Principal>
-            <Dependent Role="Kierowca_Zlecenie">
-              <PropertyRef Name="Zlecenie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="taxiEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Kierowca" EntityType="Self.Kierowca" />
           <EntitySet Name="Samochod" EntityType="Self.Samochod" />
           <EntitySet Name="Status_kierowcy" EntityType="Self.Status_kierowcy" />
           <EntitySet Name="Zlecenie" EntityType="Self.Zlecenie" />
-          <EntitySet Name="Kierowca_Zlecenie" EntityType="Self.Kierowca_Zlecenie" />
-          <AssociationSet Name="fk_Kierowca" Association="Self.fk_Kierowca">
-            <End Role="Kierowca" EntitySet="Kierowca" />
-            <End Role="Kierowca_Zlecenie" EntitySet="Kierowca_Zlecenie" />
-          </AssociationSet>
           <AssociationSet Name="fk_Kierowca_status" Association="Self.fk_Kierowca_status">
             <End Role="Kierowca" EntitySet="Kierowca" />
             <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
@@ -444,10 +390,6 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
           <AssociationSet Name="fk_Samochod_1" Association="Self.fk_Samochod_1">
             <End Role="Samochod" EntitySet="Samochod" />
             <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Zlecenie" Association="Self.fk_Zlecenie">
-            <End Role="Zlecenie" EntitySet="Zlecenie" />
-            <End Role="Kierowca_Zlecenie" EntitySet="Kierowca_Zlecenie" />
           </AssociationSet>
           <EntitySet Name="listwy" EntityType="Model.listwy" />
           <EntitySet Name="magazyn" EntityType="Model.magazyn" />
@@ -475,7 +417,16 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
             <End Role="uzytkownicy" EntitySet="uzytkownicy" />
             <End Role="zdarzenia" EntitySet="zdarzenia" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="KierowcaZlecenie" EntityType="Model.KierowcaZlecenie" />
+          <AssociationSet Name="fk_Kierowca" Association="Model.fk_Kierowca">
+            <End Role="Kierowca" EntitySet="Kierowca" />
+            <End Role="KierowcaZlecenie" EntitySet="KierowcaZlecenie" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Zlecenie" Association="Model.fk_Zlecenie">
+            <End Role="Zlecenie" EntitySet="Zlecenie" />
+            <End Role="KierowcaZlecenie" EntitySet="KierowcaZlecenie" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="listwy">
           <Key>
             <PropertyRef Name="idListwy" />
@@ -611,7 +562,46 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="KierowcaZlecenie">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kierowca" Type="Int32" Nullable="false" />
+          <Property Name="Zlecenie" Type="Int32" Nullable="false" />
+          <Property Name="Poczatek" Type="DateTime" Nullable="false" />
+          <Property Name="Koniec" Type="DateTime" Nullable="false" />
+          <Property Name="Czas_dojazdu" Type="Int32" />
+          <NavigationProperty Name="Kierowca1" Relationship="Model.fk_Kierowca" FromRole="KierowcaZlecenie" ToRole="Kierowca" />
+          <NavigationProperty Name="Zlecenie1" Relationship="Model.fk_Zlecenie" FromRole="KierowcaZlecenie" ToRole="Zlecenie" />
+        </EntityType>
+        <Association Name="fk_Kierowca">
+          <End Type="Model.Kierowca" Role="Kierowca" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.KierowcaZlecenie" Role="KierowcaZlecenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kierowca">
+              <PropertyRef Name="ID_kierowcy" />
+            </Principal>
+            <Dependent Role="KierowcaZlecenie">
+              <PropertyRef Name="Kierowca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Zlecenie">
+          <End Type="Model.Zlecenie" Role="Zlecenie" Multiplicity="1" />
+          <End Type="Model.KierowcaZlecenie" Role="KierowcaZlecenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zlecenie">
+              <PropertyRef Name="ID_zlecenie" />
+            </Principal>
+            <Dependent Role="KierowcaZlecenie">
+              <PropertyRef Name="Zlecenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -664,17 +654,6 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
                 <ScalarProperty Name="Mozliwe_spoznienie" ColumnName="Mozliwe_spoznienie" />
                 <ScalarProperty Name="Przyblizony_czas_drogi" ColumnName="Przyblizony_czas_drogi" />
                 <ScalarProperty Name="VIP" ColumnName="VIP" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Kierowca_Zlecenie">
-            <EntityTypeMapping TypeName="Model.Kierowca_Zlecenie">
-              <MappingFragment StoreEntitySet="Kierowca-Zlecenie">
-                <ScalarProperty Name="Czas_dojazdu" ColumnName="Czas_dojazdu" />
-                <ScalarProperty Name="Kierowca" ColumnName="Kierowca" />
-                <ScalarProperty Name="Zlecenie" ColumnName="Zlecenie" />
-                <ScalarProperty Name="Poczatek" ColumnName="Poczatek" />
-                <ScalarProperty Name="Koniec" ColumnName="Koniec" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -741,6 +720,18 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
                 <ScalarProperty Name="ileMetrow" ColumnName="ileMetrow" />
                 <ScalarProperty Name="idMagazyn" ColumnName="idMagazyn" />
                 <ScalarProperty Name="idListwa" ColumnName="idListwa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KierowcaZlecenie">
+            <EntityTypeMapping TypeName="Model.KierowcaZlecenie">
+              <MappingFragment StoreEntitySet="KierowcaZlecenie">
+                <ScalarProperty Name="Czas_dojazdu" ColumnName="Czas_dojazdu" />
+                <ScalarProperty Name="Koniec" ColumnName="Koniec" />
+                <ScalarProperty Name="Poczatek" ColumnName="Poczatek" />
+                <ScalarProperty Name="Zlecenie" ColumnName="Zlecenie" />
+                <ScalarProperty Name="Kierowca" ColumnName="Kierowca" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

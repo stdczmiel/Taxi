@@ -4,16 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7a04084aaba2453394e7310cb5bd19ce" Name="Diagram1" ZoomLevel="97">
+      <Diagram DiagramId="7a04084aaba2453394e7310cb5bd19ce" Name="Diagram1" ZoomLevel="81">
         <EntityTypeShape EntityType="Model.Kierowca" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Samochod" Width="1.5" PointX="0.625" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Status_kierowcy" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Zlecenie" Width="2.5" PointX="4.25" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Kierowca_Zlecenie" Width="2.375" PointX="6" PointY="2.875" IsExpanded="true" />
-        <AssociationConnector Association="Model.fk_Kierowca" ManuallyRouted="false" />
         <AssociationConnector Association="Model.fk_Kierowca_status" ManuallyRouted="false" />
         <AssociationConnector Association="Model.fk_Samochod_1" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.fk_Zlecenie" ManuallyRouted="false" />
         <EntityTypeShape EntityType="Model.listwy" Width="1.5" PointX="7.375" PointY="12.625" />
         <EntityTypeShape EntityType="Model.magazyn" Width="1.5" PointX="7.375" PointY="8.875" />
         <EntityTypeShape EntityType="Model.ustawienia" Width="1.5" PointX="9.375" PointY="0.75" />
@@ -25,7 +22,10 @@
         <AssociationConnector Association="Model.fk_magazyn" />
         <AssociationConnector Association="Model.fk_magazyn1" />
         <AssociationConnector Association="Model.fk_uzytkownik1" />
-      </Diagram>
+        <EntityTypeShape EntityType="Model.KierowcaZlecenie" Width="1.5" PointX="7.5" PointY="4.625" />
+        <AssociationConnector Association="Model.fk_Kierowca" />
+        <AssociationConnector Association="Model.fk_Zlecenie" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

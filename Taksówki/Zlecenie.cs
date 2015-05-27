@@ -16,7 +16,7 @@ namespace Taksówki
     {
         public Zlecenie()
         {
-            this.Kierowca_Zlecenie = new HashSet<Kierowca_Zlecenie>();
+            this.KierowcaZlecenie = new HashSet<KierowcaZlecenie>();
         }
     
         public int ID_zlecenie { get; set; }
@@ -29,6 +29,6 @@ namespace Taksówki
         public int Przyblizony_czas_drogi { get; set; }
         public bool VIP { get; set; }
     
-        public virtual ICollection<Kierowca_Zlecenie> Kierowca_Zlecenie { get; set; }
+        public virtual ICollection<KierowcaZlecenie> KierowcaZlecenie { get; set; }
     }
 }

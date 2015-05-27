@@ -12,8 +12,9 @@ namespace Taksówki
     using System;
     using System.Collections.Generic;
     
-    public partial class Kierowca_Zlecenie
+    public partial class KierowcaZlecenie
     {
+        public int ID { get; set; }
         public int Kierowca { get; set; }
         public int Zlecenie { get; set; }
         public System.DateTime Poczatek { get; set; }
