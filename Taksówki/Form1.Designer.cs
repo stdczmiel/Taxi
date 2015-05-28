@@ -137,6 +137,8 @@
             this.samochodTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.SamochodTableAdapter();
             this.zlecenieTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.ZlecenieTableAdapter();
             this.status_kierowcyTableAdapter = new Taksówki._baza_danychDataSetTableAdapters.Status_kierowcyTableAdapter();
+            this.button_tabu = new System.Windows.Forms.Button();
+            this.button_gantt = new System.Windows.Forms.Button();
             czas_poczatkowyLabel = new System.Windows.Forms.Label();
             dokad_dlLabel = new System.Windows.Forms.Label();
             mozliwe_spoznienieLabel = new System.Windows.Forms.Label();
@@ -841,7 +843,7 @@
             this.panel1.Controls.Add(czas_poczatkowyLabel);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1118, 609);
+            this.panel1.Size = new System.Drawing.Size(1118, 592);
             this.panel1.TabIndex = 19;
             // 
             // checkBoxVip
@@ -1045,6 +1047,8 @@
             // 
             this.tabSchedule.AutoScroll = true;
             this.tabSchedule.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tabSchedule.Controls.Add(this.button_gantt);
+            this.tabSchedule.Controls.Add(this.button_tabu);
             this.tabSchedule.Controls.Add(this.labelhover);
             this.tabSchedule.Controls.Add(this.timeBar);
             this.tabSchedule.Controls.Add(this.chartPanel);
@@ -1061,8 +1065,9 @@
             this.labelhover.AutoSize = true;
             this.labelhover.Location = new System.Drawing.Point(89, 455);
             this.labelhover.Name = "labelhover";
-            this.labelhover.Size = new System.Drawing.Size(0, 13);
+            this.labelhover.Size = new System.Drawing.Size(35, 13);
             this.labelhover.TabIndex = 3;
+            this.labelhover.Text = "label2";
             // 
             // timeBar
             // 
@@ -1148,6 +1153,26 @@
             // status_kierowcyTableAdapter
             // 
             this.status_kierowcyTableAdapter.ClearBeforeFill = true;
+            // 
+            // button_tabu
+            // 
+            this.button_tabu.Location = new System.Drawing.Point(92, 484);
+            this.button_tabu.Name = "button_tabu";
+            this.button_tabu.Size = new System.Drawing.Size(75, 23);
+            this.button_tabu.TabIndex = 4;
+            this.button_tabu.Text = "tabu";
+            this.button_tabu.UseVisualStyleBackColor = true;
+            this.button_tabu.Click += new System.EventHandler(this.button_tabu_Click);
+            // 
+            // button_gantt
+            // 
+            this.button_gantt.Location = new System.Drawing.Point(92, 527);
+            this.button_gantt.Name = "button_gantt";
+            this.button_gantt.Size = new System.Drawing.Size(75, 23);
+            this.button_gantt.TabIndex = 5;
+            this.button_gantt.Text = "gantt";
+            this.button_gantt.UseVisualStyleBackColor = true;
+            this.button_gantt.Click += new System.EventHandler(this.button_gantt_Click);
             // 
             // Form1
             // 
@@ -1291,6 +1316,8 @@
         private System.Windows.Forms.FlowLayoutPanel itemBar;
         private System.Windows.Forms.Panel timeBar;
         private System.Windows.Forms.Label labelhover;
+        private System.Windows.Forms.Button button_gantt;
+        private System.Windows.Forms.Button button_tabu;
     }
 }
 

@@ -17,13 +17,17 @@ namespace Taksówki
 {
     class Tabu
     {
+
+        const int dlugoscKolejkiTabu = 5;
+        const int iloscIteracji = 10;
+
+
         private taxiEntities dbTaxiContext;
         public ObservableCollection<Kierowca> kierowcy;
         public ObservableCollection<Zlecenie> zlecenia;
         List<List<KierowcaZlecenie>> l;
 
         Queue<KierowcaZlecenie> kolejkaTabu;
-        const int dlugoscKolejkiTabu = 5;
         public double funkcjaCelu;
     
         public Tabu(taxiEntities te)
@@ -41,7 +45,10 @@ namespace Taksówki
             WyczyscTabeleKierowcaZlecenie();
             PobierzHarmonogram();
             WstepnePrzyporzadkowanie();
-            Algorytm();
+            for (int i = 0; i < iloscIteracji; i++)
+            {
+                Algorytm();
+            }
             ZaktualizujBazeDanych();
         }
 
@@ -171,7 +178,7 @@ namespace Taksówki
                 // Przechodzimy do godziny, od której mozna wstawic nasze zadanie.
                 // Czyli szukamy indeksu zadania, które zaczyna się nie wczesniej niz zadany czas początkowy
                 int idx = 0;
-                while ((idx < l[k].Count()) && (l[k][idx].Poczatek < l[kierNajdluzsze][indeksNajdluzsze].Zlecenie1.Czas_poczatkowy))
+                while ((idx < l[k].Count()-1) && (l[k][idx].Poczatek < l[kierNajdluzsze][indeksNajdluzsze].Zlecenie1.Czas_poczatkowy))
                 {
                     idx++;
                 }
@@ -214,11 +221,11 @@ namespace Taksówki
                 // czas rozpoczęcia zlecenia jest uzależniony od tego, kiedy zakończyło się poprzednie i jak długi jest czas dojazdu do klienta
                 if (poprz.Koniec + TimeSpan.FromMinutes((double)akt.Czas_dojazdu) < akt.Zlecenie1.Czas_poczatkowy)
                 {
-                    akt.Poczatek = akt.Zlecenie1.Czas_poczatkowy;
+                    akt.Poczatek = akt.Zlecenie1.Czas_poczatkowy.Subtract(TimeSpan.FromMinutes((double)akt.Czas_dojazdu));
                 }
                 else
                 {
-                    akt.Poczatek = poprz.Koniec + TimeSpan.FromMinutes((double)akt.Czas_dojazdu);
+                    akt.Poczatek = poprz.Koniec;
                 }
                 akt.Koniec = akt.Poczatek.AddMinutes((double)akt.Zlecenie1.Przyblizony_czas_drogi);
             }
@@ -244,7 +251,7 @@ namespace Taksówki
         }
 
 
-        // Zwraca wartosc funkcji celu (łączny czas dojazdów) dla obecnego harmonogramu.
+        // Zwraca wartosc funkcji celu (uwzglednia tylko czas dojazdów) dla obecnego harmonogramu.
         // Czasy dojazdów są proporcjonalne do zużycia paliwa.
         double FunkcjaCelu()
         {
@@ -254,6 +261,8 @@ namespace Taksówki
                 for (int i = 0; i < l[k].Count(); i++)
                 {
                     fc += (double)l[k][i].Czas_dojazdu;
+                    double opoznienie = (l[k][i].Poczatek - l[k][i].Zlecenie1.Czas_poczatkowy).TotalMinutes;
+                    fc += opoznienie;
                 }
             }
             return fc;
@@ -292,7 +301,8 @@ namespace Taksówki
 
             // jesli nowy harmonogram nie spelnia ograniczen lub jest gorszy od poprzedniego, 
             // to wroc do poprzedniego harmonogramu
-            if (!SprawdzOgraniczenia() || (nowaFunkcjaCelu > funkcjaCelu))
+            //if (!SprawdzOgraniczenia() || (nowaFunkcjaCelu > funkcjaCelu))
+            if (nowaFunkcjaCelu > funkcjaCelu)
             {
                 l[k1].Insert(indeks1, l[k2][indeks2]);
                 //kierowcy[k1].KierowcaZlecenie.Add(l[k2][indeks2]);
