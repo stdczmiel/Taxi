@@ -841,7 +841,7 @@
             this.panel1.Controls.Add(czas_poczatkowyLabel);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1118, 552);
+            this.panel1.Size = new System.Drawing.Size(1118, 609);
             this.panel1.TabIndex = 19;
             // 
             // checkBoxVip
@@ -1061,9 +1061,8 @@
             this.labelhover.AutoSize = true;
             this.labelhover.Location = new System.Drawing.Point(89, 455);
             this.labelhover.Name = "labelhover";
-            this.labelhover.Size = new System.Drawing.Size(35, 13);
+            this.labelhover.Size = new System.Drawing.Size(0, 13);
             this.labelhover.TabIndex = 3;
-            this.labelhover.Text = "label2";
             // 
             // timeBar
             // 
