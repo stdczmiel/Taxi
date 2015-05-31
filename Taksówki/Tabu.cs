@@ -74,9 +74,11 @@ namespace Taksówki
             if (kierowcy.Count() == 0)
                 throw new IndexOutOfRangeException("Nie ma zadnych kierowcow");
 
-            DateTime pom = DateTime.Now;
+            DateTime startTime = DateTime.Now + TimeSpan.FromDays(1);
+            DateTime endTime = DateTime.Now + +TimeSpan.FromDays(1) + TimeSpan.FromHours(24);
             var z = from commissions in dbTaxiContext.Zlecenie
-                    where commissions.Czas_poczatkowy >= pom
+                    where commissions.Czas_poczatkowy >= startTime
+                    where commissions.Czas_poczatkowy <= endTime
                     orderby commissions.Czas_poczatkowy ascending
                     select commissions;
             zlecenia = new ObservableCollection<Zlecenie>(z);
@@ -290,10 +292,12 @@ namespace Taksówki
 
             l[k2].Insert(indeks2, l[k1][indeks1]);
             //kierowcy[k2].KierowcaZlecenie.Add(l[k1][indeks1]);   // niepotrzebne, jeśli w aktualizacji przepiszamy listy l do kierowców.KierowcaZlecenie
-            l[k1].RemoveAt(indeks1);
             //kierowcy[k1].KierowcaZlecenie.Remove(l[k1][indeks1]);
+            l[k1].RemoveAt(indeks1);
+            
 
             l[k2][indeks2].Kierowca1 = kierowcy[k2];
+            l[k2][indeks2].Kierowca = kierowcy[k2].ID_kierowcy;
             PrzeliczCzasy(l[k1]);
             PrzeliczCzasy(l[k2]);
 
@@ -306,12 +310,13 @@ namespace Taksówki
             {
                 l[k1].Insert(indeks1, l[k2][indeks2]);
                 //kierowcy[k1].KierowcaZlecenie.Add(l[k2][indeks2]);
-                l[k2].RemoveAt(indeks2);
                 //kierowcy[k2].KierowcaZlecenie.Remove(l[k2][indeks2]);
+                l[k2].RemoveAt(indeks2);
 
                 PrzeliczCzasy(l[k1]);
                 PrzeliczCzasy(l[k2]);
                 l[k1][indeks1].Kierowca1 = kierowcy[k1];
+                l[k1][indeks1].Kierowca = kierowcy[k1].ID_kierowcy;
                 return false;
             }
             else
