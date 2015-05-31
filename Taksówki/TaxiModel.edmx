@@ -25,39 +25,6 @@
           <Property Name="Koniec" Type="timestamp" Precision="0" />
           <Property Name="Czas_dojazdu" Type="int" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="listwa-magazyn">
-          <Key>
-            <PropertyRef Name="idListwa" />
-            <PropertyRef Name="ileMetrow" />
-          </Key>
-          <Property Name="idListwa" Type="int" Nullable="false" />
-          <Property Name="idMagazyn" Type="int" />
-          <Property Name="ileMetrow" Type="decimal" Precision="6" Scale="2" Nullable="false" />
-        </EntityType>
-        <EntityType Name="listwy">
-          <Key>
-            <PropertyRef Name="idListwy" />
-          </Key>
-          <Property Name="idListwy" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="numerListwy" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="kolor" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="grubosc" Type="int" />
-          <Property Name="cena" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="uwagi" Type="text" />
-          <Property Name="kodKreskowy" Type="char" MaxLength="10" Nullable="false" />
-        </EntityType>
-        <EntityType Name="magazyn">
-          <Key>
-            <PropertyRef Name="idMagazyn" />
-          </Key>
-          <Property Name="idMagazyn" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nazwa" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="miejscowosc" Type="varchar" MaxLength="30" />
-          <Property Name="ulica" Type="varchar" MaxLength="30" />
-          <Property Name="numerLokalu" Type="varchar" MaxLength="6" />
-        </EntityType>
         <EntityType Name="Samochod">
           <Key>
             <PropertyRef Name="ID_samochodu" />
@@ -80,36 +47,6 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
           <Property Name="Pozycja_szer" Type="decimal" Precision="8" Scale="6" />
           <Property Name="Pozycja_dl" Type="decimal" Precision="8" Scale="6" />
           <Property Name="Czas_zmiany" Type="timestamp" Precision="0" />
-        </EntityType>
-        <EntityType Name="ustawienia">
-          <Key>
-            <PropertyRef Name="idOpcji" />
-          </Key>
-          <Property Name="idOpcji" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NazwaOpcji" Type="varchar" MaxLength="45" />
-          <Property Name="Wartosc" Type="longtext" />
-        </EntityType>
-        <EntityType Name="uzytkownicy">
-          <Key>
-            <PropertyRef Name="iduzytkownicy" />
-          </Key>
-          <Property Name="iduzytkownicy" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="login" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="haslo" Type="varchar" MaxLength="45" Nullable="false" />
-          <Property Name="uprawnienia" Type="char" MaxLength="1" Nullable="false" />
-        </EntityType>
-        <EntityType Name="zdarzenia">
-          <Key>
-            <PropertyRef Name="idzdarzenia" />
-          </Key>
-          <Property Name="idzdarzenia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nazwaZdarzenia" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="listwa" Type="int" Nullable="false" />
-          <Property Name="ilosc" Type="decimal" Precision="7" Scale="2" />
-          <Property Name="magazyn" Type="int" />
-          <Property Name="uzytkownik" Type="int" />
-          <Property Name="data" Type="date" Nullable="false" />
-          <Property Name="godzina" Type="time" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Zlecenie">
           <Key>
@@ -153,58 +90,6 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_listwa">
-          <End Role="listwy" Type="Self.listwy" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="listwa-magazyn" Type="Self.listwa-magazyn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="listwy">
-              <PropertyRef Name="idListwy" />
-            </Principal>
-            <Dependent Role="listwa-magazyn">
-              <PropertyRef Name="idListwa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_listwa1">
-          <End Role="listwy" Type="Self.listwy" Multiplicity="1" />
-          <End Role="zdarzenia" Type="Self.zdarzenia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="listwy">
-              <PropertyRef Name="idListwy" />
-            </Principal>
-            <Dependent Role="zdarzenia">
-              <PropertyRef Name="listwa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_magazyn">
-          <End Role="magazyn" Type="Self.magazyn" Multiplicity="0..1" />
-          <End Role="listwa-magazyn" Type="Self.listwa-magazyn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="magazyn">
-              <PropertyRef Name="idMagazyn" />
-            </Principal>
-            <Dependent Role="listwa-magazyn">
-              <PropertyRef Name="idMagazyn" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_magazyn1">
-          <End Role="magazyn" Type="Self.magazyn" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="zdarzenia" Type="Self.zdarzenia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="magazyn">
-              <PropertyRef Name="idMagazyn" />
-            </Principal>
-            <Dependent Role="zdarzenia">
-              <PropertyRef Name="magazyn" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_Samochod_1">
           <End Role="Samochod" Type="Self.Samochod" Multiplicity="0..1" />
           <End Role="Status_kierowcy" Type="Self.Status_kierowcy" Multiplicity="*" />
@@ -214,18 +99,6 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
             </Principal>
             <Dependent Role="Status_kierowcy">
               <PropertyRef Name="Samochod" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_uzytkownik1">
-          <End Role="uzytkownicy" Type="Self.uzytkownicy" Multiplicity="0..1" />
-          <End Role="zdarzenia" Type="Self.zdarzenia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="uzytkownicy">
-              <PropertyRef Name="iduzytkownicy" />
-            </Principal>
-            <Dependent Role="zdarzenia">
-              <PropertyRef Name="uzytkownik" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -244,21 +117,9 @@ warning 6002: The table/view 'def.baza-danych.listwa-magazyn' does not have a pr
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Kierowca" EntityType="Self.Kierowca" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="KierowcaZlecenie" EntityType="Self.KierowcaZlecenie" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="listwy" EntityType="Self.listwy" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="magazyn" EntityType="Self.magazyn" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="Samochod" EntityType="Self.Samochod" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="Status_kierowcy" EntityType="Self.Status_kierowcy" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="ustawienia" EntityType="Self.ustawienia" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="uzytkownicy" EntityType="Self.uzytkownicy" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="zdarzenia" EntityType="Self.zdarzenia" Schema="baza-danych" store:Type="Tables" />
           <EntitySet Name="Zlecenie" EntityType="Self.Zlecenie" Schema="baza-danych" store:Type="Tables" />
-          <EntitySet Name="listwa-magazyn" EntityType="Self.listwa-magazyn" store:Type="Tables" store:Schema="baza-danych">
-            <DefiningQuery>SELECT
-`listwa-magazyn`.`idListwa`, 
-`listwa-magazyn`.`idMagazyn`, 
-`listwa-magazyn`.`ileMetrow`
-FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="fk_Kierowca" Association="Self.fk_Kierowca">
             <End Role="Kierowca" EntitySet="Kierowca" />
             <End Role="KierowcaZlecenie" EntitySet="KierowcaZlecenie" />
@@ -267,29 +128,9 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
             <End Role="Kierowca" EntitySet="Kierowca" />
             <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
           </AssociationSet>
-          <AssociationSet Name="fk_listwa" Association="Self.fk_listwa">
-            <End Role="listwy" EntitySet="listwy" />
-            <End Role="listwa-magazyn" EntitySet="listwa-magazyn" />
-          </AssociationSet>
-          <AssociationSet Name="fk_listwa1" Association="Self.fk_listwa1">
-            <End Role="listwy" EntitySet="listwy" />
-            <End Role="zdarzenia" EntitySet="zdarzenia" />
-          </AssociationSet>
-          <AssociationSet Name="fk_magazyn" Association="Self.fk_magazyn">
-            <End Role="magazyn" EntitySet="magazyn" />
-            <End Role="listwa-magazyn" EntitySet="listwa-magazyn" />
-          </AssociationSet>
-          <AssociationSet Name="fk_magazyn1" Association="Self.fk_magazyn1">
-            <End Role="magazyn" EntitySet="magazyn" />
-            <End Role="zdarzenia" EntitySet="zdarzenia" />
-          </AssociationSet>
           <AssociationSet Name="fk_Samochod_1" Association="Self.fk_Samochod_1">
             <End Role="Samochod" EntitySet="Samochod" />
             <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
-          </AssociationSet>
-          <AssociationSet Name="fk_uzytkownik1" Association="Self.fk_uzytkownik1">
-            <End Role="uzytkownicy" EntitySet="uzytkownicy" />
-            <End Role="zdarzenia" EntitySet="zdarzenia" />
           </AssociationSet>
           <AssociationSet Name="fk_Zlecenie" Association="Self.fk_Zlecenie">
             <End Role="Zlecenie" EntitySet="Zlecenie" />
@@ -391,32 +232,6 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
             <End Role="Samochod" EntitySet="Samochod" />
             <End Role="Status_kierowcy" EntitySet="Status_kierowcy" />
           </AssociationSet>
-          <EntitySet Name="listwy" EntityType="Model.listwy" />
-          <EntitySet Name="magazyn" EntityType="Model.magazyn" />
-          <EntitySet Name="ustawienia" EntityType="Model.ustawienia" />
-          <EntitySet Name="uzytkownicy" EntityType="Model.uzytkownicy" />
-          <EntitySet Name="zdarzenia" EntityType="Model.zdarzenia" />
-          <EntitySet Name="listwa_magazyn" EntityType="Model.listwa_magazyn" />
-          <AssociationSet Name="fk_listwa" Association="Model.fk_listwa">
-            <End Role="listwy" EntitySet="listwy" />
-            <End Role="listwa_magazyn" EntitySet="listwa_magazyn" />
-          </AssociationSet>
-          <AssociationSet Name="fk_listwa1" Association="Model.fk_listwa1">
-            <End Role="listwy" EntitySet="listwy" />
-            <End Role="zdarzenia" EntitySet="zdarzenia" />
-          </AssociationSet>
-          <AssociationSet Name="fk_magazyn" Association="Model.fk_magazyn">
-            <End Role="magazyn" EntitySet="magazyn" />
-            <End Role="listwa_magazyn" EntitySet="listwa_magazyn" />
-          </AssociationSet>
-          <AssociationSet Name="fk_magazyn1" Association="Model.fk_magazyn1">
-            <End Role="magazyn" EntitySet="magazyn" />
-            <End Role="zdarzenia" EntitySet="zdarzenia" />
-          </AssociationSet>
-          <AssociationSet Name="fk_uzytkownik1" Association="Model.fk_uzytkownik1">
-            <End Role="uzytkownicy" EntitySet="uzytkownicy" />
-            <End Role="zdarzenia" EntitySet="zdarzenia" />
-          </AssociationSet>
           <EntitySet Name="KierowcaZlecenie" EntityType="Model.KierowcaZlecenie" />
           <AssociationSet Name="fk_Kierowca" Association="Model.fk_Kierowca">
             <End Role="Kierowca" EntitySet="Kierowca" />
@@ -427,141 +242,6 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
             <End Role="KierowcaZlecenie" EntitySet="KierowcaZlecenie" />
           </AssociationSet>
           </EntityContainer>
-        <EntityType Name="listwy">
-          <Key>
-            <PropertyRef Name="idListwy" />
-          </Key>
-          <Property Name="idListwy" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="numerListwy" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="kolor" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="grubosc" Type="Int32" />
-          <Property Name="cena" Type="Decimal" />
-          <Property Name="uwagi" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="kodKreskowy" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="listwa_magazyn" Relationship="Model.fk_listwa" FromRole="listwy" ToRole="listwa_magazyn" />
-          <NavigationProperty Name="zdarzenia" Relationship="Model.fk_listwa1" FromRole="listwy" ToRole="zdarzenia" />
-        </EntityType>
-        <EntityType Name="magazyn">
-          <Key>
-            <PropertyRef Name="idMagazyn" />
-          </Key>
-          <Property Name="idMagazyn" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nazwa" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="miejscowosc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ulica" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="numerLokalu" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="listwa_magazyn" Relationship="Model.fk_magazyn" FromRole="magazyn" ToRole="listwa_magazyn" />
-          <NavigationProperty Name="zdarzenia" Relationship="Model.fk_magazyn1" FromRole="magazyn" ToRole="zdarzenia" />
-        </EntityType>
-        <EntityType Name="ustawienia">
-          <Key>
-            <PropertyRef Name="idOpcji" />
-          </Key>
-          <Property Name="idOpcji" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NazwaOpcji" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="Wartosc" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="uzytkownicy">
-          <Key>
-            <PropertyRef Name="iduzytkownicy" />
-          </Key>
-          <Property Name="iduzytkownicy" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="login" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="haslo" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="uprawnienia" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="zdarzenia" Relationship="Model.fk_uzytkownik1" FromRole="uzytkownicy" ToRole="zdarzenia" />
-        </EntityType>
-        <EntityType Name="zdarzenia">
-          <Key>
-            <PropertyRef Name="idzdarzenia" />
-          </Key>
-          <Property Name="idzdarzenia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nazwaZdarzenia" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="listwa" Type="Int32" Nullable="false" />
-          <Property Name="ilosc" Type="Decimal" />
-          <Property Name="magazyn" Type="Int32" />
-          <Property Name="uzytkownik" Type="Int32" />
-          <Property Name="data" Type="DateTime" Nullable="false" />
-          <Property Name="godzina" Type="Time" Nullable="false" />
-          <NavigationProperty Name="listwy" Relationship="Model.fk_listwa1" FromRole="zdarzenia" ToRole="listwy" />
-          <NavigationProperty Name="magazyn1" Relationship="Model.fk_magazyn1" FromRole="zdarzenia" ToRole="magazyn" />
-          <NavigationProperty Name="uzytkownicy" Relationship="Model.fk_uzytkownik1" FromRole="zdarzenia" ToRole="uzytkownicy" />
-        </EntityType>
-        <EntityType Name="listwa_magazyn">
-          <Key>
-            <PropertyRef Name="idListwa" />
-            <PropertyRef Name="ileMetrow" />
-          </Key>
-          <Property Name="idListwa" Type="Int32" Nullable="false" />
-          <Property Name="idMagazyn" Type="Int32" />
-          <Property Name="ileMetrow" Type="Decimal" Nullable="false" />
-          <NavigationProperty Name="listwy" Relationship="Model.fk_listwa" FromRole="listwa_magazyn" ToRole="listwy" />
-          <NavigationProperty Name="magazyn" Relationship="Model.fk_magazyn" FromRole="listwa_magazyn" ToRole="magazyn" />
-        </EntityType>
-        <Association Name="fk_listwa">
-          <End Type="Model.listwy" Role="listwy" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="Model.listwa_magazyn" Role="listwa_magazyn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="listwy">
-              <PropertyRef Name="idListwy" />
-            </Principal>
-            <Dependent Role="listwa_magazyn">
-              <PropertyRef Name="idListwa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_listwa1">
-          <End Type="Model.listwy" Role="listwy" Multiplicity="1" />
-          <End Type="Model.zdarzenia" Role="zdarzenia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="listwy">
-              <PropertyRef Name="idListwy" />
-            </Principal>
-            <Dependent Role="zdarzenia">
-              <PropertyRef Name="listwa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_magazyn">
-          <End Type="Model.magazyn" Role="magazyn" Multiplicity="0..1" />
-          <End Type="Model.listwa_magazyn" Role="listwa_magazyn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="magazyn">
-              <PropertyRef Name="idMagazyn" />
-            </Principal>
-            <Dependent Role="listwa_magazyn">
-              <PropertyRef Name="idMagazyn" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_magazyn1">
-          <End Type="Model.magazyn" Role="magazyn" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="Model.zdarzenia" Role="zdarzenia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="magazyn">
-              <PropertyRef Name="idMagazyn" />
-            </Principal>
-            <Dependent Role="zdarzenia">
-              <PropertyRef Name="magazyn" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_uzytkownik1">
-          <End Type="Model.uzytkownicy" Role="uzytkownicy" Multiplicity="0..1" />
-          <End Type="Model.zdarzenia" Role="zdarzenia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="uzytkownicy">
-              <PropertyRef Name="iduzytkownicy" />
-            </Principal>
-            <Dependent Role="zdarzenia">
-              <PropertyRef Name="uzytkownik" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="KierowcaZlecenie">
           <Key>
             <PropertyRef Name="ID" />
@@ -654,72 +334,6 @@ FROM `listwa-magazyn` AS `listwa-magazyn`</DefiningQuery>
                 <ScalarProperty Name="Mozliwe_spoznienie" ColumnName="Mozliwe_spoznienie" />
                 <ScalarProperty Name="Przyblizony_czas_drogi" ColumnName="Przyblizony_czas_drogi" />
                 <ScalarProperty Name="VIP" ColumnName="VIP" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="listwy">
-            <EntityTypeMapping TypeName="Model.listwy">
-              <MappingFragment StoreEntitySet="listwy">
-                <ScalarProperty Name="kodKreskowy" ColumnName="kodKreskowy" />
-                <ScalarProperty Name="uwagi" ColumnName="uwagi" />
-                <ScalarProperty Name="cena" ColumnName="cena" />
-                <ScalarProperty Name="grubosc" ColumnName="grubosc" />
-                <ScalarProperty Name="kolor" ColumnName="kolor" />
-                <ScalarProperty Name="numerListwy" ColumnName="numerListwy" />
-                <ScalarProperty Name="idListwy" ColumnName="idListwy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="magazyn">
-            <EntityTypeMapping TypeName="Model.magazyn">
-              <MappingFragment StoreEntitySet="magazyn">
-                <ScalarProperty Name="numerLokalu" ColumnName="numerLokalu" />
-                <ScalarProperty Name="ulica" ColumnName="ulica" />
-                <ScalarProperty Name="miejscowosc" ColumnName="miejscowosc" />
-                <ScalarProperty Name="nazwa" ColumnName="nazwa" />
-                <ScalarProperty Name="idMagazyn" ColumnName="idMagazyn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ustawienia">
-            <EntityTypeMapping TypeName="Model.ustawienia">
-              <MappingFragment StoreEntitySet="ustawienia">
-                <ScalarProperty Name="Wartosc" ColumnName="Wartosc" />
-                <ScalarProperty Name="NazwaOpcji" ColumnName="NazwaOpcji" />
-                <ScalarProperty Name="idOpcji" ColumnName="idOpcji" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="uzytkownicy">
-            <EntityTypeMapping TypeName="Model.uzytkownicy">
-              <MappingFragment StoreEntitySet="uzytkownicy">
-                <ScalarProperty Name="uprawnienia" ColumnName="uprawnienia" />
-                <ScalarProperty Name="haslo" ColumnName="haslo" />
-                <ScalarProperty Name="login" ColumnName="login" />
-                <ScalarProperty Name="iduzytkownicy" ColumnName="iduzytkownicy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="zdarzenia">
-            <EntityTypeMapping TypeName="Model.zdarzenia">
-              <MappingFragment StoreEntitySet="zdarzenia">
-                <ScalarProperty Name="godzina" ColumnName="godzina" />
-                <ScalarProperty Name="data" ColumnName="data" />
-                <ScalarProperty Name="uzytkownik" ColumnName="uzytkownik" />
-                <ScalarProperty Name="magazyn" ColumnName="magazyn" />
-                <ScalarProperty Name="ilosc" ColumnName="ilosc" />
-                <ScalarProperty Name="listwa" ColumnName="listwa" />
-                <ScalarProperty Name="nazwaZdarzenia" ColumnName="nazwaZdarzenia" />
-                <ScalarProperty Name="idzdarzenia" ColumnName="idzdarzenia" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="listwa_magazyn">
-            <EntityTypeMapping TypeName="Model.listwa_magazyn">
-              <MappingFragment StoreEntitySet="listwa-magazyn">
-                <ScalarProperty Name="ileMetrow" ColumnName="ileMetrow" />
-                <ScalarProperty Name="idMagazyn" ColumnName="idMagazyn" />
-                <ScalarProperty Name="idListwa" ColumnName="idListwa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

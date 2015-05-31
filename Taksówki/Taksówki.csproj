@@ -86,15 +86,6 @@
     <Compile Include="KierowcaZlecenie.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="listwa_magazyn.cs">
-      <DependentUpon>TaxiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="listwy.cs">
-      <DependentUpon>TaxiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="magazyn.cs">
-      <DependentUpon>TaxiModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samochod.cs">
@@ -122,15 +113,6 @@
     <Compile Include="TaxiModel1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>TaxiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ustawienia.cs">
-      <DependentUpon>TaxiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="uzytkownicy.cs">
-      <DependentUpon>TaxiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="zdarzenia.cs">
       <DependentUpon>TaxiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Zlecenie.cs">

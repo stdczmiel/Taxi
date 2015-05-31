@@ -406,8 +406,9 @@ namespace Taksówki
             
             this.baseTime = baseTime;
             events = new List<ChartEvent>();
-            startTime = DateTime.Now;
-            endTime = DateTime.Now + TimeSpan.FromHours(24);
+            startTime = DateTime.Now + TimeSpan.FromDays(1);
+            endTime = DateTime.Now + +TimeSpan.FromDays(1) + TimeSpan.FromHours(24);
+ //           endTime = DateTime.Now + TimeSpan.FromHours(24);
             //var commisions = from com in dbTaxiContext.KierowcaZlecenie
             //                 where com.Poczatek > DateTime.Now
             //                 where com.Poczatek < czaskoncowy
@@ -524,7 +525,6 @@ namespace Taksówki
                 orangeLabel.Width = ev.PrepareTime;
                 orangeLabel.Padding = new Padding(0);
                 orangeLabel.Margin = new Padding(0);
-                orangeLabel.Text = ev.IDzadania.ToString();
                 orangeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                 Point position1 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute, 50 * ev.PositionY);
                 orangeLabel.Location = position1;
@@ -535,13 +535,17 @@ namespace Taksówki
                 redLabel.Width = ev.EventLength;
                 redLabel.Padding = new Padding(0);
                 redLabel.Margin = new Padding(0);
+                redLabel.Text = ev.IDzadania.ToString();
                 redLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                 Point position2 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute + ev.PrepareTime, 50 * ev.PositionY);
                 redLabel.Location = position2;
+                redLabel.Click += redLabel_Click;
                 ToolTip toolTip = new ToolTip();
                 
                 chartPanel.Controls.Add(redLabel);
-                toolTip.SetToolTip(redLabel, ev.PositionY.ToString());
+                toolTip.SetToolTip(redLabel, ev.IDzadania.ToString());
+                ToolTip toolTip1 = new ToolTip();
+                toolTip1.SetToolTip(orangeLabel, ev.IDzadania.ToString());
                 chartPanel.Controls.Add(orangeLabel);
                 i++;
             }
@@ -563,6 +567,27 @@ namespace Taksówki
 
             }
         }
+
+        void redLabel_Click(object sender, EventArgs e)
+        {
+            Label clickedLabel = sender as Label;
+            int commissionID = int.Parse(clickedLabel.Text);
+            Zlecenie clickedCommission = (from commission in dbTaxiContext.Zlecenie select commission).Where(commission => commission.ID_zlecenie == commissionID).FirstOrDefault();
+            top.Markers.Clear();
+            routes.Routes.Clear();
+            PointLatLng start = new PointLatLng(Convert.ToDouble(clickedCommission.Skad_szer), Convert.ToDouble(clickedCommission.Skad_dl));
+            PointLatLng stop = new PointLatLng(Convert.ToDouble(clickedCommission.Dokad_szer), Convert.ToDouble(clickedCommission.Dokad_dl));
+            currentMarker = new GMarkerGoogle(start, GMarkerGoogleType.red);
+            currentMarker.ToolTipText = "Początek trasy";
+            currentMarker.ToolTipMode = MarkerTooltipMode.Always;
+            top.Markers.Add(currentMarker);
+            currentMarker = new GMarkerGoogle(stop, GMarkerGoogleType.red);
+            currentMarker.ToolTipText = "Koniec trasy";
+            currentMarker.ToolTipMode = MarkerTooltipMode.Always;
+            top.Markers.Add(currentMarker);
+            findRoute();
+        }
+
 
         int findCmax()
         {
