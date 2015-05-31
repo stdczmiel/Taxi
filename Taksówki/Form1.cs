@@ -14,15 +14,17 @@ using System.Diagnostics;
 using GMap.NET.WindowsForms.Markers;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace Taksówki
 {
     public partial class Form1 : Form
     {
-        Tabu TS;
+
         string baseTime;
-        DateTime startTime;
+        DateTime startTime, endTime;
         private List<ChartEvent> events;
+        ObservableCollection<Kierowca> kierowcy;
         
         private taxiEntities dbTaxiContext = new taxiEntities();
         
@@ -40,7 +42,7 @@ namespace Taksówki
         public Form1()
         {
             InitializeComponent();
-            TS = new Tabu(dbTaxiContext);
+
             try
             {
                 System.Net.IPHostEntry e =
@@ -284,10 +286,11 @@ namespace Taksówki
             }
             else
             {
-                Zlecenie comission;
+                
+
                 if (currentZlecenieId < 0)
                 {        
-                    comission = new Zlecenie();
+                    Zlecenie comission = new Zlecenie();
                     comission.Skad_dl = decimal.Parse(skad_dlTextBox.Text);
                     comission.Skad_szer = decimal.Parse(skad_szerTextBox.Text);
                     comission.Dokad_dl = decimal.Parse(dokad_dlTextBox.Text);
@@ -303,7 +306,7 @@ namespace Taksówki
                 else
                 {
                     var zlecenieQuery = from zl in dbTaxiContext.Zlecenie where zl.ID_zlecenie == currentZlecenieId select zl;
-                    comission = zlecenieQuery.Single();
+                    Zlecenie comission = zlecenieQuery.Single();
                     comission.Skad_dl = decimal.Parse(skad_dlTextBox.Text);
                     comission.Skad_szer = decimal.Parse(skad_szerTextBox.Text);
                     comission.Dokad_dl = decimal.Parse(dokad_dlTextBox.Text);
@@ -317,7 +320,10 @@ namespace Taksówki
                 }
                 this.zlecenieTableAdapter.Fill(this._baza_danychDataSet.Zlecenie);
                 zlecenieDataGridView.Update();
-                TS.UlozHarmonogram();
+
+                Tabu T = new Tabu(dbTaxiContext);
+                T.UlozHarmonogram();
+                Gantt();
             }
         }
 
@@ -325,7 +331,6 @@ namespace Taksówki
         {
             clearZlecenieForm();
             clearMap();
-            Gantt();
         }
 
         public void clearZlecenieForm()
@@ -376,46 +381,69 @@ namespace Taksówki
 
         #region query
 
-        //private void getSchedule()
-        //{
+        private void getSchedule()
+        {
 
-        //    var schedule = from commissions in dbTaxiContext.Zlecenie
-        //                   from commissions_drivers in dbTaxiContext.Kierowca_Zlecenie
-        //                   from driver in dbTaxiContext.Kierowca
-        //                   where commissions.ID_zlecenie == commissions_drivers.Zlecenie
-        //                   where driver.ID_kierowcy == commissions_drivers.Kierowca
-        //                   where commissions_drivers.Poczatek == null
-        //                   where commissions.Czas_poczatkowy >= DateTime.Now
-        //                   select new { commissions.ID_zlecenie, };
+            var schedule = from commissions in dbTaxiContext.Zlecenie
+                           from commissions_drivers in dbTaxiContext.KierowcaZlecenie
+                           from driver in dbTaxiContext.Kierowca
+                           where commissions.ID_zlecenie == commissions_drivers.Zlecenie
+                           where driver.ID_kierowcy == commissions_drivers.Kierowca
+                           where commissions_drivers.Poczatek == null
+                           where commissions.Czas_poczatkowy >= DateTime.Now
+                           select new { commissions.ID_zlecenie, };
 
-        //}
+        }
         #endregion
-
         #region gantt
         public void Gantt(string baseTime = "hours", List<ChartEvent> e = null)
         {
+            var k = from driver in dbTaxiContext.Kierowca
+                    orderby driver.ID_kierowcy ascending
+                    select driver;
+            kierowcy = new ObservableCollection<Kierowca>(k);
+            
+            
             this.baseTime = baseTime;
             events = new List<ChartEvent>();
             startTime = DateTime.Now;
-            var commisions = from com in dbTaxiContext.Zlecenie
-                             where com.Czas_poczatkowy > DateTime.Now
-                             select com;
-            foreach(var com in commisions)
+            endTime = DateTime.Now + TimeSpan.FromHours(24);
+            //var commisions = from com in dbTaxiContext.KierowcaZlecenie
+            //                 where com.Poczatek > DateTime.Now
+            //                 where com.Poczatek < czaskoncowy
+            //                 select com;
+            //var commissions2 = new ObservableCollection<KierowcaZlecenie>(commisions);
+            //foreach(var com in commisions)
+            //{
+            //    ChartEvent chartEvent = new ChartEvent(com.Poczatek, (com.Koniec - com.Poczatek).Minutes, (int)com.Czas_dojazdu, com.Kierowca);
+            //    events.Add(chartEvent);
+            //}
+
+            for (int i = 0; i < kierowcy.Count(); i++)
             {
-                
-                ChartEvent chartEvent = new ChartEvent(com.Czas_poczatkowy, com.Przyblizony_czas_drogi, com.Mozliwe_spoznienie, com.ID_zlecenie.ToString());
-                events.Add(chartEvent);
+                foreach (var com in kierowcy[i].KierowcaZlecenie)
+                {
+                    if (com.Poczatek > startTime && com.Poczatek < endTime)
+                    {
+                        ChartEvent chartEvent = new ChartEvent(com.Poczatek, (int)(com.Koniec - com.Poczatek).TotalMinutes, (int)com.Czas_dojazdu, i, com.Zlecenie);
+                        events.Add(chartEvent);
+                    }
+                }
             }
+
             itemBar.Controls.Clear();
             timeBar.Controls.Clear();
             chartPanel.Controls.Clear();
-            drawItemsOnChart();
+            if (events.Count() > 0)
+            {
+                drawItemsOnChart();
+            }
         }
 
         private void drawTimeBar()
         {
             ChartEvent maxDateEvent = events.ElementAt(findCmax());
-            DateTime maxDate = maxDateEvent.EventStartTime.AddMinutes(maxDateEvent.PossibleDelay + maxDateEvent.EventLength);
+            DateTime maxDate = maxDateEvent.EventStartTime.AddMinutes(maxDateEvent.PrepareTime + maxDateEvent.EventLength);
             int hours = (int)Math.Ceiling(maxDate.AddHours(1).Subtract(startTime).TotalHours);
             int days = (int)Math.Ceiling(maxDate.AddHours(1).Subtract(startTime).TotalDays);
             for (int i = 0; i < days; ++i)
@@ -463,10 +491,12 @@ namespace Taksówki
         {
             itemBar.FlowDirection = FlowDirection.TopDown;
 
-            foreach (ChartEvent ev in events)
+           
+
+            foreach (Kierowca kier in kierowcy)
             {
                 Label label1 = new Label();
-                label1.Text = ev.EventCaption;
+                label1.Text = kier.ID_kierowcy.ToString();
                 label1.TextAlign = ContentAlignment.MiddleLeft;
                 label1.BorderStyle = BorderStyle.FixedSingle;
                 label1.Width = 80;
@@ -491,10 +521,12 @@ namespace Taksówki
                 Label orangeLabel = new Label();
                 orangeLabel.BackColor = Color.Orange;
                 orangeLabel.Height = 50;
-                orangeLabel.Width = ev.PossibleDelay;
+                orangeLabel.Width = ev.PrepareTime;
                 orangeLabel.Padding = new Padding(0);
                 orangeLabel.Margin = new Padding(0);
-                Point position1 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute, 50 * i);
+                orangeLabel.Text = ev.IDzadania.ToString();
+                orangeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                Point position1 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute, 50 * ev.PositionY);
                 orangeLabel.Location = position1;
 
                 Label redLabel = new Label();
@@ -503,12 +535,13 @@ namespace Taksówki
                 redLabel.Width = ev.EventLength;
                 redLabel.Padding = new Padding(0);
                 redLabel.Margin = new Padding(0);
-                Point position2 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute + ev.PossibleDelay, 50 * i);
+                redLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                Point position2 = new Point((int)(ev.EventStartTime.Subtract(startTime).TotalMinutes) + startTime.Minute + ev.PrepareTime, 50 * ev.PositionY);
                 redLabel.Location = position2;
                 ToolTip toolTip = new ToolTip();
                 
                 chartPanel.Controls.Add(redLabel);
-                toolTip.SetToolTip(redLabel, ev.EventCaption);
+                toolTip.SetToolTip(redLabel, ev.PositionY.ToString());
                 chartPanel.Controls.Add(orangeLabel);
                 i++;
             }
@@ -538,7 +571,7 @@ namespace Taksówki
             DateTime currDate;
             foreach (ChartEvent ev in events)
             {
-                currDate = ev.EventStartTime.AddMinutes(ev.PossibleDelay + ev.EventLength);
+                currDate = ev.EventStartTime.AddMinutes(ev.PrepareTime + ev.EventLength);
                 if ( currDate > maxDate)
                 {
                     maxIndex = i;
@@ -560,16 +593,18 @@ namespace Taksówki
     public partial class ChartEvent
     {
         public DateTime EventStartTime { get; private set; }
-        public int PossibleDelay { get; private set; }
+        public int PrepareTime { get; private set; }
         public int EventLength { get; private set; }
-        public string EventCaption { get; private set; }
+        public int PositionY { get; private set; }
+        public int IDzadania { get; private set; }
 
-        public ChartEvent(DateTime start, int length, int delay = 0, string caption = "")
+        public ChartEvent(DateTime start, int length, int pt, int posY, int id)
         {
             EventStartTime = start;
             EventLength = length;
-            PossibleDelay = delay;
-            EventCaption = caption;
+            PrepareTime = pt;
+            PositionY = posY;
+            IDzadania = id;
         }
     }
            
