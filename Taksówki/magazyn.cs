@@ -12,20 +12,21 @@ namespace Taksówki
     using System;
     using System.Collections.Generic;
     
-    public partial class Kierowca
+    public partial class magazyn
     {
-        public Kierowca()
+        public magazyn()
         {
-            this.Status_kierowcy = new HashSet<Status_kierowcy>();
-            this.KierowcaZlecenie = new HashSet<KierowcaZlecenie>();
+            this.listwa_magazyn = new HashSet<listwa_magazyn>();
+            this.zdarzenia = new HashSet<zdarzenia>();
         }
     
-        public int ID_kierowcy { get; set; }
-        public string Imie { get; set; }
-        public string Nazwisko { get; set; }
-        public string Nr_telefonu { get; set; }
+        public int idMagazyn { get; set; }
+        public string nazwa { get; set; }
+        public string miejscowosc { get; set; }
+        public string ulica { get; set; }
+        public string numerLokalu { get; set; }
     
-        public virtual ICollection<Status_kierowcy> Status_kierowcy { get; set; }
-        public virtual ICollection<KierowcaZlecenie> KierowcaZlecenie { get; set; }
+        public virtual ICollection<listwa_magazyn> listwa_magazyn { get; set; }
+        public virtual ICollection<zdarzenia> zdarzenia { get; set; }
     }
 }

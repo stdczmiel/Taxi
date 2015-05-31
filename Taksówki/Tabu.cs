@@ -10,96 +10,154 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Collections.ObjectModel;
 
+// W bazie nie powinno być tabeli KierowcaZlecenie
+// Zamiast tego Poczatek i Koniec powinny być w tabeli Zlecenie
+
 namespace Taksówki
 {
     class Tabu
     {
+
+        const int dlugoscKolejkiTabu = 5;
+        const int iloscIteracji = 10;
+
+
         private taxiEntities dbTaxiContext;
         public ObservableCollection<Kierowca> kierowcy;
         public ObservableCollection<Zlecenie> zlecenia;
+        List<List<KierowcaZlecenie>> l;
 
-        Queue<Kierowca_Zlecenie> kolejkaTabu;
-        const int dlugoscKolejkiTabu = 5;
+        Queue<KierowcaZlecenie> kolejkaTabu;
         public double funkcjaCelu;
-
+    
         public Tabu(taxiEntities te)
         {
             dbTaxiContext = te;
 
             funkcjaCelu = double.MaxValue;
-            kolejkaTabu = new Queue<Kierowca_Zlecenie>();
+            kolejkaTabu = new Queue<KierowcaZlecenie>();
         }
 
+
+        // Podstawowa funkcja wywołująca wszystkie po kolei
         public void UlozHarmonogram()
         {
             WyczyscTabeleKierowcaZlecenie();
             PobierzHarmonogram();
             WstepnePrzyporzadkowanie();
-            Algorytm();
+            for (int i = 0; i < iloscIteracji; i++)
+            {
+                Algorytm();
+            }
+            ZaktualizujBazeDanych();
         }
 
+        void ZaktualizujBazeDanych()
+        {
+            dbTaxiContext.SaveChanges();
+        }
+
+        // Tabela jest za kazdym razem układana od nowa, więc starą można usunąc
         void WyczyscTabeleKierowcaZlecenie()
         {
-            dbTaxiContext.Database.ExecuteSqlCommand("TRUNCATE TABLE Kierowca-Zlecenie");
+            dbTaxiContext.KierowcaZlecenie.RemoveRange(dbTaxiContext.KierowcaZlecenie);
+            dbTaxiContext.SaveChanges();
         }
 
+        // Pobiera tabele Kierowca i Zlecenie z bazy danych
         void PobierzHarmonogram()
         {
-            var k =   from driver in dbTaxiContext.Kierowca
-                      select driver;
+            var k = from driver in dbTaxiContext.Kierowca
+                    orderby driver.ID_kierowcy ascending
+                    select driver;
             kierowcy = new ObservableCollection<Kierowca>(k);
             if (kierowcy.Count() == 0)
                 throw new IndexOutOfRangeException("Nie ma zadnych kierowcow");
 
+            DateTime pom = DateTime.Now;
             var z = from commissions in dbTaxiContext.Zlecenie
-                      where commissions.Czas_poczatkowy >= DateTime.Now
-                      orderby commissions.Czas_poczatkowy ascending
+                    where commissions.Czas_poczatkowy >= pom
+                    orderby commissions.Czas_poczatkowy ascending
                     select commissions;
             zlecenia = new ObservableCollection<Zlecenie>(z);
-            if(zlecenia.Count()==0)
+            if (zlecenia.Count() == 0)
                 throw new IndexOutOfRangeException("Nie ma zadnych zlecen");
         }
 
-
+        // Wstawia zlecenia po kolei do kierowcow, czyli pierwsze do pierwszego, drugie do drugiego, ... I od początku potem.
         void WstepnePrzyporzadkowanie()
         {
-            int iloscKierowcow = kierowcy.Count();               
-           
-            // Dodajemy zlecenia po kolei do wszystkich kierowcow
+            int iloscKierowcow = dbTaxiContext.Kierowca.Count();
+
             int idxKierowca = 0;
             foreach (Zlecenie z in zlecenia)
             {
-                Kierowca_Zlecenie kz = new Kierowca_Zlecenie();
+                KierowcaZlecenie kz = new KierowcaZlecenie();
+                kz.Poczatek = DateTime.Now;
+                kz.Koniec = DateTime.Now;
+                //kz.ID = IDkz++;
+                dbTaxiContext.KierowcaZlecenie.Add(kz);
+
                 kz.Kierowca1 = kierowcy[idxKierowca];
                 kz.Zlecenie1 = z;
-                kierowcy[idxKierowca].Kierowca_Zlecenie.Add(kz);
-                PrzeliczCzasy(kierowcy[idxKierowca]); 
 
-                // ustaw kolejnego kierowcę
+                // ustaw kolejnego kierowcę, albo wróć do pierwszego
                 if (++idxKierowca >= iloscKierowcow)
                 {
                     idxKierowca = 0;
                 }
             }
-                       
+
+
+            
+            dbTaxiContext.SaveChanges();
+
+            // Aktualizacja robi się chyba automatycznie
+            //var k = from driver in dbTaxiContext.Kierowca
+            //        orderby driver.ID_kierowcy ascending
+            //        select driver;
+            //kierowcy = new ObservableCollection<Kierowca>(k);
+            //if (kierowcy.Count() == 0)
+            //    throw new IndexOutOfRangeException("Nie ma zadnych kierowcow");
+
+            // Tworzone są Listy dla kierowcow - używa się ich wygodniej niż tabeli KierowcaZlecenie.
+            // Każda lista odzwierciedla zlecenia dla kierowcy. Czyli mozna uzywac tak : l[indeksKierowcy][numerZlecenia]
+            l = new List<List<KierowcaZlecenie>>(kierowcy.Count());
+            for (int i = 0; i < kierowcy.Count(); i++)
+            {
+                l.Add(new List<KierowcaZlecenie>());
+                l[i] = kierowcy[i].KierowcaZlecenie.ToList();
+            }
+
+            foreach (List<KierowcaZlecenie> lista in l)
+            {
+                // lista.Sort(CompareZlecenia2); // niepotrzebne, bo zlecenie i tak są posortowane (orderby ascending)
+                PrzeliczCzasy(lista);
+            }
+
+
         }
 
+
+        // Algorytm Tabu Search
         void Algorytm()
         {
-            Kierowca kierNajdluzsze = kierowcy.First();
-            int indeksNajdluzsze = 0;
-            double najdluzszyCzasDojazdu = 0;
 
-            // szukamy zadania o najdluzszym czasie dojazdu
-            foreach (Kierowca k in kierowcy)
+            int kierNajdluzsze = 0;
+            int indeksNajdluzsze = 0;
+            int najdluzszyCzasDojazdu = 0;
+
+            // Szukamy zadania o najdluzszym czasie dojazdu i bedziemy je wstawiac na kazde mozliwe miejsce.
+            // W algorytmie TS sprawdzalismy wszystkie zadania ze sciezki krytycznej, ale tu chyba nie ma sciezki krytycznej.
+            for (int k = 0; k < l.Count(); k++)
             {
-                for (int i = 0; i < k.Kierowca_Zlecenie.Count(); i++)
+                for (int i = 0; i < l[k].Count(); i++)
                 {
-                    if (k.Kierowca_Zlecenie.ElementAt(i).Czas_dojazdu > najdluzszyCzasDojazdu)
+                    if (l[k][i].Czas_dojazdu >= najdluzszyCzasDojazdu)
                     {
-                        if (!kolejkaTabu.Contains(k.Kierowca_Zlecenie.ElementAt(i)))    // sprawdzenie, czy zadanie nie jest na liscie tabu
+                        if (!kolejkaTabu.Contains(l[k][i]))    // sprawdzenie, czy zadanie nie jest na liscie tabu
                         {
-                            najdluzszyCzasDojazdu = k.Kierowca_Zlecenie.ElementAt(i).Czas_dojazdu;
+                            najdluzszyCzasDojazdu = (int)l[k][i].Czas_dojazdu;
                             kierNajdluzsze = k;
                             indeksNajdluzsze = i;
                         }
@@ -108,22 +166,24 @@ namespace Taksówki
             }
 
             // dodajemy zadanie na kolejke tabu
-            kolejkaTabu.Enqueue(kierNajdluzsze.Kierowca_Zlecenie.ElementAt(indeksNajdluzsze));
+            kolejkaTabu.Enqueue(l[kierNajdluzsze][indeksNajdluzsze]);
             if (kolejkaTabu.Count() > dlugoscKolejkiTabu)
             {
                 kolejkaTabu.Dequeue();
             }
 
             // probujemy wstawic je na kazde mozliwe miejsce
-            foreach (Kierowca k in kierowcy)
+            for (int k = 0; k < l.Count(); k++)
             {
-                // przechodzimy do godziny, od której mozna wstawic nasze zadanie
+                // Przechodzimy do godziny, od której mozna wstawic nasze zadanie.
+                // Czyli szukamy indeksu zadania, które zaczyna się nie wczesniej niz zadany czas początkowy
                 int idx = 0;
-                while ((idx < k.Kierowca_Zlecenie.Count()) && (k.Kierowca_Zlecenie.ElementAt(idx).Poczatek < kierNajdluzsze.Kierowca_Zlecenie.ElementAt(indeksNajdluzsze).Zlecenie1.Czas_poczatkowy))
+                while ((idx < l[k].Count()-1) && (l[k][idx].Poczatek < l[kierNajdluzsze][indeksNajdluzsze].Zlecenie1.Czas_poczatkowy))
                 {
                     idx++;
                 }
 
+                // Wstawiamy zadanie na każde miejsce od tej godziny aż do końca
                 do
                 {
                     if (PrzestawJesliLepsze(kierNajdluzsze, indeksNajdluzsze, k, idx))
@@ -132,35 +192,42 @@ namespace Taksówki
                         indeksNajdluzsze = idx;
                     }
                     idx++;
-                } while (idx < k.Kierowca_Zlecenie.Count());
+                } while (idx < l[k].Count());
 
             }
+
         }
 
-        void PrzeliczCzasy(Kierowca k)
+        // Aktualizuje Początek, Koniec i Czas_dojazdu dla każdego zadania.
+        // W maszynach nazywało się to C, P i r.
+        void PrzeliczCzasy(List<KierowcaZlecenie> l)
         {
             // czasy dla pierwszego zlecenia
-            k.Kierowca_Zlecenie.First().Czas_dojazdu = 0;
-            k.Kierowca_Zlecenie.First().Poczatek = k.Kierowca_Zlecenie.First().Zlecenie1.Czas_poczatkowy;
-            k.Kierowca_Zlecenie.First().Koniec = k.Kierowca_Zlecenie.First().Poczatek;
-            k.Kierowca_Zlecenie.First().Koniec.AddMinutes(k.Kierowca_Zlecenie.First().Zlecenie1.Przyblizony_czas_drogi);
+            if (l.Count() > 0)
+            {
+                l.First().Czas_dojazdu = 0;
+                l.First().Poczatek = l.First().Zlecenie1.Czas_poczatkowy;
+                l.First().Koniec = l.First().Poczatek;
+                l.First().Koniec = l.First().Koniec.AddMinutes((double)l.First().Zlecenie1.Przyblizony_czas_drogi);
+            }
 
             // czasy dla pozostalych zlecen
-            for (int i = 1; i < k.Kierowca_Zlecenie.Count();i++ )
+            for (int i = 1; i < l.Count(); i++)
             {
-                Kierowca_Zlecenie poprz = k.Kierowca_Zlecenie.ElementAt(i-1);
-                Kierowca_Zlecenie akt = k.Kierowca_Zlecenie.ElementAt(i);
+                KierowcaZlecenie poprz = l.ElementAt(i - 1);
+                KierowcaZlecenie akt = l.ElementAt(i);
                 akt.Czas_dojazdu = CzasDojazdu(poprz.Zlecenie1.Dokad_szer, poprz.Zlecenie1.Dokad_dl, akt.Zlecenie1.Skad_szer, akt.Zlecenie1.Skad_dl);
 
                 // czas rozpoczęcia zlecenia jest uzależniony od tego, kiedy zakończyło się poprzednie i jak długi jest czas dojazdu do klienta
-                if (poprz.Koniec + TimeSpan.FromMinutes(akt.Czas_dojazdu) < akt.Zlecenie1.Czas_poczatkowy)
+                if (poprz.Koniec + TimeSpan.FromMinutes((double)akt.Czas_dojazdu) < akt.Zlecenie1.Czas_poczatkowy)
                 {
-                    akt.Poczatek = akt.Zlecenie1.Czas_poczatkowy;
+                    akt.Poczatek = akt.Zlecenie1.Czas_poczatkowy.Subtract(TimeSpan.FromMinutes((double)akt.Czas_dojazdu));
                 }
                 else
                 {
-                    akt.Poczatek = poprz.Koniec + TimeSpan.FromMinutes(akt.Czas_dojazdu);
+                    akt.Poczatek = poprz.Koniec;
                 }
+                akt.Koniec = akt.Poczatek.AddMinutes((double)akt.Zlecenie1.Przyblizony_czas_drogi);
             }
         }
 
@@ -169,68 +236,82 @@ namespace Taksówki
         // (2. Roznica w czasie pracy miedzy kierowcami nie przekracza 1h)
         bool SprawdzOgraniczenia()
         {
-            foreach (Kierowca k in kierowcy)
+            for (int k = 0; k < l.Count(); k++)
             {
-                foreach (Kierowca_Zlecenie kz in k.Kierowca_Zlecenie)
+                for (int i = 0; i < l[k].Count(); i++)
                 {
-                    if(kz.Poczatek > kz.Zlecenie1.Czas_poczatkowy + TimeSpan.FromMinutes(kz.Zlecenie1.Mozliwe_spoznienie))
+                    if (l[k][i].Poczatek > l[k][i].Zlecenie1.Czas_poczatkowy + TimeSpan.FromMinutes(l[k][i].Zlecenie1.Mozliwe_spoznienie))
                     {
                         return false;
                     }
+
                 }
             }
             return true;
         }
 
-        // Zwraca wartosc funkcji celu (łączny czas dojazdów) dla obecnego harmonogramu.
+
+        // Zwraca wartosc funkcji celu (uwzglednia tylko czas dojazdów) dla obecnego harmonogramu.
         // Czasy dojazdów są proporcjonalne do zużycia paliwa.
         double FunkcjaCelu()
         {
             double fc = 0;
-            foreach (Kierowca k in kierowcy)
+            for (int k = 0; k < l.Count(); k++)
             {
-                foreach (Kierowca_Zlecenie kz in k.Kierowca_Zlecenie)
+                for (int i = 0; i < l[k].Count(); i++)
                 {
-                    fc += kz.Czas_dojazdu;
+                    fc += (double)l[k][i].Czas_dojazdu;
+                    double opoznienie = (l[k][i].Poczatek - l[k][i].Zlecenie1.Czas_poczatkowy).TotalMinutes;
+                    fc += opoznienie;
                 }
             }
             return fc;
         }
 
-        static int CompareZlecenia(Kierowca_Zlecenie a, Kierowca_Zlecenie b)
+        // Funkcja potrzebna do posortowania według pola Poczatek
+        static int CompareZlecenia(KierowcaZlecenie a, KierowcaZlecenie b)
         {
             return a.Poczatek.CompareTo(b.Poczatek);    // zwraca ujemną liczbę, jeśli a jest wcześniej
         }
 
-        bool PrzestawJesliLepsze(Kierowca k1, int indeks1, Kierowca k2, int indeks2)
+        // Funkcja potrzebna do posortowania według pola Czas_poczatkowy
+        static int CompareZlecenia2(KierowcaZlecenie a, KierowcaZlecenie b)
         {
-            List<Kierowca_Zlecenie> k1KZ = k1.Kierowca_Zlecenie.ToList();
-            //k1KZ.Sort(CompareZlecenia);
-            List<Kierowca_Zlecenie> k2KZ = k2.Kierowca_Zlecenie.ToList();
-            //k2KZ.Sort(CompareZlecenia);
+            return a.Zlecenie1.Czas_poczatkowy.CompareTo(b.Zlecenie1.Czas_poczatkowy);
+        }
 
+        // Przestawia zadanie z l[k1][indeks1] do l[k2][indeks2] jesli nowa funkcja celu jest lepsza i spelnia ograniczenia
+        bool PrzestawJesliLepsze(int k1, int indeks1, int k2, int indeks2)
+        {
             if (k1 == k2 && indeks1 == indeks2)
             {
                 return false;
             }
 
-            k2KZ.Insert(indeks2, k1KZ[indeks1]);
-            k1KZ.RemoveAt(indeks1);
-            k2KZ[indeks2].Kierowca1 = k2;
-            PrzeliczCzasy(k1);
-            PrzeliczCzasy(k2);
+            l[k2].Insert(indeks2, l[k1][indeks1]);
+            //kierowcy[k2].KierowcaZlecenie.Add(l[k1][indeks1]);   // niepotrzebne, jeśli w aktualizacji przepiszamy listy l do kierowców.KierowcaZlecenie
+            l[k1].RemoveAt(indeks1);
+            //kierowcy[k1].KierowcaZlecenie.Remove(l[k1][indeks1]);
+
+            l[k2][indeks2].Kierowca1 = kierowcy[k2];
+            PrzeliczCzasy(l[k1]);
+            PrzeliczCzasy(l[k2]);
 
             double nowaFunkcjaCelu = FunkcjaCelu();
 
             // jesli nowy harmonogram nie spelnia ograniczen lub jest gorszy od poprzedniego, 
             // to wroc do poprzedniego harmonogramu
-            if (!SprawdzOgraniczenia() || (nowaFunkcjaCelu > funkcjaCelu))
-            {                
-                k1KZ.Insert(indeks1, k2KZ[indeks2]);
-                k2KZ.RemoveAt(indeks2);
-                PrzeliczCzasy(k1);
-                PrzeliczCzasy(k2);
-                k1KZ[indeks1].Kierowca1 = k1;
+            //if (!SprawdzOgraniczenia() || (nowaFunkcjaCelu > funkcjaCelu))
+            if (nowaFunkcjaCelu > funkcjaCelu)
+            {
+                l[k1].Insert(indeks1, l[k2][indeks2]);
+                //kierowcy[k1].KierowcaZlecenie.Add(l[k2][indeks2]);
+                l[k2].RemoveAt(indeks2);
+                //kierowcy[k2].KierowcaZlecenie.Remove(l[k2][indeks2]);
+
+                PrzeliczCzasy(l[k1]);
+                PrzeliczCzasy(l[k2]);
+                l[k1][indeks1].Kierowca1 = kierowcy[k1];
                 return false;
             }
             else
@@ -250,7 +331,7 @@ namespace Taksówki
         // czas przejazdu w minutach (przy zalozeniu predkosci 50km/h)
         int CzasDojazdu(decimal szer1, decimal dlug1, decimal szer2, decimal dlug2)
         {
-            return (int)(Odleglosc(szer1, dlug1, szer2, dlug2) * 60.0M / 50.0M); 
+            return (int)(Odleglosc(szer1, dlug1, szer2, dlug2) * 60.0M / 50.0M);
         }
     }
 }
