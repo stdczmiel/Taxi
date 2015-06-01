@@ -149,6 +149,8 @@ namespace Taksówki
             int indeksNajdluzsze = 0;
             int najdluzszyCzasDojazdu = 0;
 
+            int kierpom = 0, indexpom = 0;
+
             // Szukamy zadania o najdluzszym czasie dojazdu i bedziemy je wstawiac na kazde mozliwe miejsce.
             // W algorytmie TS sprawdzalismy wszystkie zadania ze sciezki krytycznej, ale tu chyba nie ma sciezki krytycznej.
             for (int k = 0; k < l.Count(); k++)
@@ -157,6 +159,7 @@ namespace Taksówki
                 {
                     if (l[k][i].Czas_dojazdu >= najdluzszyCzasDojazdu)
                     {
+                        kierpom = k; indexpom = i;
                         if (!kolejkaTabu.Contains(l[k][i]))    // sprawdzenie, czy zadanie nie jest na liscie tabu
                         {
                             najdluzszyCzasDojazdu = (int)l[k][i].Czas_dojazdu;
@@ -165,6 +168,13 @@ namespace Taksówki
                         }
                     }
                 }
+            }
+
+            // jesli zlecenie nie istnieje, to wybierz najstarsze z kolejki
+            if (l[kierNajdluzsze].Count() <= indeksNajdluzsze)
+            {
+                kierNajdluzsze = kierpom;
+                indeksNajdluzsze = indexpom;
             }
 
             // dodajemy zadanie na kolejke tabu
